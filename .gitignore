@@ -60,3 +60,38 @@ smoke.err
 tmpclaude-*/
 *.out
 tmpclaude-*-cwd
+
+# ---- Diagnostic / probe / check scripts (root + subdirs) ----
+check_models.py
+check_perms.py
+populate_db.py
+seed_employee.py
+probe_*.py
+_probe*.py
+_probe*.ps1
+_probe*.out
+_probe_logout.py
+_patch_settings.py
+_role_check.py
+_run_dj.cmd
+_tmplist.ps1
+_write_*.py
+tasks_env_show_tasks.py
+_dump_*.py
+
+# ---- Stray logs / push artifacts ----
+*.log
+*.err
+*.out
+*.dump
+_push.*
+_fetch.*
+_ls.*
+
+# ---- Backups / temp / editor scratch ----
+*.bak
+*.tmp
+*.swp
+*.swo
+*~
+tmpclaude-*/
