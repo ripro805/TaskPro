@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Create group — TaskPro{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto my-6">
+  <div class="glass-card p-8 fadeUp">
+    <h1 class="text-2xl font-extrabold mb-1">Create group</h1>
+    <p class="text-ink-600 mb-6">Define a new role and its permissions.</p>
+    <form method="post" class="space-y-5">{% csrf_token %}
+      <div>
+        <label class="text-sm font-semibold">Name</label>
+        <input class="input mt-1" name="name" placeholder="e.g. Reviewer" required />
+      </div>
+      <div>
+        <label class="text-sm font-semibold mb-2 block">Permissions</label>
+        <div class="check-grid">
+          {% for p in permissions %}
+          <label class="check-card"><input type="checkbox" name="permissions" value="{{ p.id }}" /><span><strong>{{ p.codename }}</strong><br /><span class="text-xs text-ink-500">{{ p.content_type.app_label }}.{{ p.content_type.model }}</span></span></label>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="flex gap-2 justify-end">
+        <a class="btn-ghost" href="{% url 'group_list' %}">Cancel</a>
+        <button class="btn-primary" type="submit">Create group</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

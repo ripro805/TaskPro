@@ -1,0 +1,323 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Manager Dashboard - TaskPro{% endblock %}
+
+{% block content %}
+<div class="my-6 space-y-8">
+
+  <section class="hero-shell fadeUp">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-floats">
+      <span class="blob b1"></span>
+      <span class="blob b2"></span>
+    </div>
+
+    <div class="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <div class="min-w-0 flex-1">
+        <span class="hero-eyebrow"><span class="pulse"></span> {{ role_label|default:'Manager' }} workspace</span>
+        <h1 class="hero-title mt-4" style="font-size:clamp(2rem,4vw,3rem);">
+          Manager <span class="grad">Mission</span> Control
+        </h1>
+        <p class="hero-sub">{{ context_message|default:'All team tasks at a glance.' }}</p>
+        <div class="flex flex-wrap items-center gap-2 mt-4">
+          <span class="badge badge-brand">{{ task_counts.total }} total</span>
+          <span class="badge badge-warning">{{ task_counts.pending }} pending</span>
+          <span class="badge badge-cyan">{{ task_counts.in_progress }} in progress</span>
+          <span class="badge badge-success">{{ task_counts.completed }} done</span>
+          {% if overdue_tasks %}<span class="badge td-badge-overdue">{{ overdue_tasks|length }} overdue</span>{% endif %}
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="{% url 'view_tasks' %}" class="btn-primary btn-lg">View all tasks</a>
+        <a href="{% url 'create-task' %}" class="btn-secondary btn-lg">+ New task</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-cards stagger">
+    <div class="kpi-card">
+      <div class="flex items-center justify-between">
+        <div class="kpi-icon" style="background:linear-gradient(135deg,#3b63ff,#7c3aed);">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </div>
+        <span class="badge badge-brand">All</span>
+      </div>
+      <div class="kpi-value mt-4">{{ task_counts.total }}</div>
+      <div class="kpi-label">Total tasks</div>
+      <div class="mt-3 text-xs text-ink-500">{{ projects_count }} projects &middot; {{ team_size }} members</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="flex items-center justify-between">
+        <div class="kpi-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <span class="badge badge-warning">Pending</span>
+      </div>
+      <div class="kpi-value mt-4">{{ task_counts.pending }}</div>
+      <div class="kpi-label">Awaiting start</div>
+      {% if task_counts.total %}<div class="mt-3 h-1.5 rounded-full bg-ink-100 overflow-hidden"><div class="h-full bg-gradient-to-r from-amber-400 to-rose-500" style="width:{% widthratio task_counts.pending task_counts.total 100 %}%"></div></div>{% endif %}
+    </div>
+
+    <div class="kpi-card">
+      <div class="flex items-center justify-between">
+        <div class="kpi-icon" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><polyline points="21 3 21 9 15 9"/></svg>
+        </div>
+        <span class="badge badge-cyan">Active</span>
+      </div>
+      <div class="kpi-value mt-4">{{ task_counts.in_progress }}</div>
+      <div class="kpi-label">In progress</div>
+      {% if task_counts.total %}<div class="mt-3 h-1.5 rounded-full bg-ink-100 overflow-hidden"><div class="h-full bg-gradient-to-r from-cyan-400 to-blue-500" style="width:{% widthratio task_counts.in_progress task_counts.total 100 %}%"></div></div>{% endif %}
+    </div>
+
+    <div class="kpi-card">
+      <div class="flex items-center justify-between">
+        <div class="kpi-icon" style="background:linear-gradient(135deg,#10b981,#059669);">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <span class="badge badge-success">Done</span>
+      </div>
+      <div class="kpi-value mt-4">{{ task_counts.completed }}</div>
+      <div class="kpi-label">Completed</div>
+      <div class="mt-3 text-xs font-semibold" style="color:#059669;">{{ completion_rate }}% completion rate</div>
+    </div>
+  </section>
+
+  <section class="grid lg:grid-cols-3 gap-6">
+    <article class="glass-card p-5 fadeUp lg:col-span-2">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-wider text-ink-500">Filter</div>
+          <h2 class="sec-title mt-1" style="font-size:1.25rem;">Filter tasks by status</h2>
+        </div>
+        <span class="badge badge-violet text-xs">{{ tasks|length }} shown</span>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-4">
+        <a href="?type=all" class="btn btn-sm {% if not status_filter or status_filter == 'ALL' %}btn-primary{% else %}btn-ghost{% endif %}">All</a>
+        <a href="?type=pending" class="btn btn-sm {% if status_filter == 'PENDING' %}btn-primary{% else %}btn-ghost{% endif %}">Pending</a>
+        <a href="?type=inprogress" class="btn btn-sm {% if status_filter == 'IN_PROGRESS' %}btn-primary{% else %}btn-ghost{% endif %}">In progress</a>
+        <a href="?type=completed" class="btn btn-sm {% if status_filter == 'COMPLETED' %}btn-primary{% else %}btn-ghost{% endif %}">Completed</a>
+      </div>
+
+      <div class="mt-5 overflow-x-auto">
+        <table class="table-premium">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Project</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Assignees</th>
+              <th>Due</th>
+              <th class="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in tasks|slice:":10" %}
+            <tr>
+              <td>
+                <a href="{% url 'view_task_detail' task.id %}" class="font-semibold text-ink-900 hover:underline">{{ task.title|truncatechars:42 }}</a>
+                <div class="text-xs text-ink-500">#{{ task.id }} &middot; {{ task.created_at|date:"M d" }}</div>
+              </td>
+              <td>{% if task.project %}<span class="badge badge-brand text-xs">{{ task.project.name|truncatechars:14 }}</span>{% else %}<span class="text-ink-400">-</span>{% endif %}</td>
+              <td>
+                {% if task.detail %}
+                  <span class="badge priority-{{ task.detail.priority }}">{{ task.detail.get_priority_display }}</span>
+                {% else %}
+                  <span class="text-ink-500 text-xs">-</span>
+                {% endif %}
+              </td>
+              <td><span class="badge status-{{ task.status }}">{{ task.get_status_display }}</span></td>
+              <td>
+                <div class="flex -space-x-2">
+                  {% for u in task.assigned_to.all|slice:":3" %}
+                    {% if u.profile_picture %}<img class="avatar-sm ring-white" src="{{ u.profile_picture.url }}" alt="" onerror="this.style.display='none'" title="{{ u.get_full_name|default:u.username }}" />{% else %}<span class="avatar-sm ring-white td-avatar-fallback" title="{{ u.get_full_name|default:u.username }}">{{ u.username|slice:":1"|upper }}</span>{% endif %}
+                  {% endfor %}
+                  {% if task.assigned_to.count > 3 %}
+                    <span class="avatar-sm" style="display:inline-flex;align-items:center;justify-content:center;background:#e5e7eb;color:#374151;font-size:0.7rem;font-weight:700;">+{{ task.assigned_to.count|add:'-3' }}</span>
+                  {% elif task.assigned_to.count == 0 %}
+                    <span class="text-ink-400 text-xs">Unassigned</span>
+                  {% endif %}
+                </div>
+              </td>
+              <td>
+                {% if task.due_date %}
+                  <span class="text-sm {% if task.is_overdue %}td-stat-danger{% endif %}">{{ task.due_date|date:"M d, Y" }}</span>
+                {% else %}<span class="text-ink-400">-</span>{% endif %}
+              </td>
+              <td class="text-right">
+                <a href="{% url 'view_task_detail' task.id %}" class="btn btn-sm btn-ghost">View</a>
+                <a href="{% url 'update-task' task.id %}" class="btn btn-sm btn-secondary">Edit</a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7"><div class="empty-state"><p class="font-semibold text-ink-700">No tasks match this filter.</p><p class="text-sm">Try a different status or clear the filter.</p><a class="btn btn-ghost mt-3" href="?type=all">Show all tasks</a></div></td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if tasks|length > 10 %}
+      <div class="mt-4 text-center">
+        <a href="{% url 'view_tasks' %}" class="btn btn-secondary btn-sm">View all {{ tasks|length }} tasks &rarr;</a>
+      </div>
+      {% endif %}
+    </article>
+
+    <aside class="space-y-6">
+      <article class="glass-card p-5 fadeUp">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-ink-500">Completion</div>
+            <h3 class="sec-title mt-1" style="font-size:1.05rem;">Team progress</h3>
+          </div>
+        </div>
+        <div class="td-ring-wrap mt-4 mx-auto" style="width:160px;height:160px;">
+          <svg class="td-ring" viewBox="0 0 120 120" width="160" height="160">
+            <circle class="td-ring-track" cx="60" cy="60" r="52"/>
+            <circle class="td-ring-fill" cx="60" cy="60" r="52" style="--p: {{ completion_rate }}"/>
+          </svg>
+          <div class="td-ring-center">
+            <div class="td-ring-num">{{ completion_rate }}%</div>
+            <div class="td-ring-label">Complete</div>
+          </div>
+        </div>
+        <ul class="mt-4 space-y-2 text-sm">
+          <li class="flex items-center justify-between"><span class="text-ink-500 flex items-center gap-2"><span class="td-dot td-dot-COMPLETED"></span> Done</span><span class="font-semibold">{{ task_counts.completed }}</span></li>
+          <li class="flex items-center justify-between"><span class="text-ink-500 flex items-center gap-2"><span class="td-dot td-dot-IN_PROGRESS"></span> Active</span><span class="font-semibold">{{ task_counts.in_progress }}</span></li>
+          <li class="flex items-center justify-between"><span class="text-ink-500 flex items-center gap-2"><span class="td-dot td-dot-PENDING"></span> Pending</span><span class="font-semibold">{{ task_counts.pending }}</span></li>
+        </ul>
+      </article>
+
+      <article class="glass-card p-5 fadeUp">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-ink-500">Alerts</div>
+            <h3 class="sec-title mt-1" style="font-size:1.05rem;">Overdue tasks</h3>
+          </div>
+          <span class="badge {% if overdue_tasks %}td-badge-overdue{% else %}badge-success{% endif %} text-xs">{{ overdue_tasks|length|default:0 }}</span>
+        </div>
+        <ul class="mt-3 space-y-2 max-h-56 overflow-auto pr-1">
+          {% for t in overdue_tasks|slice:":6" %}
+          <li class="flex items-center gap-3 p-2 rounded-lg" style="background:rgba(244,63,94,0.06);">
+            <span class="td-dot td-dot-PENDING"></span>
+            <div class="min-w-0 flex-1">
+              <a href="{% url 'view_task_detail' t.id %}" class="text-sm font-semibold text-ink-900 hover:underline truncate block">{{ t.title|truncatechars:30 }}</a>
+              <div class="text-xs text-ink-500">Due {{ t.due_date|date:"M d" }} &middot; #{{ t.id }}</div>
+            </div>
+          </li>
+          {% empty %}
+          <li class="text-sm text-ink-500 flex items-center gap-2">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Nothing overdue — nice work!
+          </li>
+          {% endfor %}
+        </ul>
+      </article>
+    </aside>
+  </section>
+
+  <section class="grid lg:grid-cols-3 gap-6">
+    <article class="glass-card p-5 fadeUp lg:col-span-2">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-wider text-ink-500">Projects</div>
+          <h2 class="sec-title mt-1" style="font-size:1.25rem;">Tasks by project</h2>
+        </div>
+        <span class="badge badge-brand">{{ projects_count }} project{{ projects_count|pluralize }}</span>
+      </div>
+
+      <div class="mt-4 space-y-3">
+        {% for pt in projects_with_tasks %}
+        <div class="feat-card p-4">
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2">
+                <div class="feat-icon" style="background:linear-gradient(135deg,#7c3aed,#3b63ff);width:32px;height:32px;">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <div class="font-bold text-ink-900 truncate">{{ pt.project.name }}</div>
+                  <div class="text-xs text-ink-500">{{ pt.total }} task{{ pt.total|pluralize }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1 text-xs">
+              {% if pt.done %}<span class="badge badge-success">{{ pt.done }} done</span>{% endif %}
+              {% if pt.inprogress %}<span class="badge badge-cyan">{{ pt.inprogress }} active</span>{% endif %}
+              {% if pt.pending %}<span class="badge badge-warning">{{ pt.pending }} pending</span>{% endif %}
+            </div>
+          </div>
+          <div class="mt-3 flex h-2 rounded-full overflow-hidden bg-ink-100">
+            {% if pt.total %}
+              <div class="bg-gradient-to-r from-emerald-400 to-emerald-600" style="width:{% widthratio pt.done pt.total 100 %}%" title="done"></div>
+              <div class="bg-gradient-to-r from-cyan-400 to-blue-500" style="width:{% widthratio pt.inprogress pt.total 100 %}%" title="in progress"></div>
+              <div class="bg-gradient-to-r from-amber-400 to-rose-500" style="width:{% widthratio pt.pending pt.total 100 %}%" title="pending"></div>
+            {% endif %}
+          </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+          <p class="font-semibold text-ink-700">No projects yet.</p>
+          <p class="text-sm">Create projects to organize tasks.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="glass-card p-5 fadeUp">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-wider text-ink-500">Team</div>
+          <h3 class="sec-title mt-1" style="font-size:1.05rem;">Top contributors</h3>
+        </div>
+        <span class="badge badge-cyan text-xs">{{ team_size }}</span>
+      </div>
+      <ul class="mt-3 space-y-3 max-h-72 overflow-auto pr-1">
+        {% for u in top_contributors %}
+        <li class="flex items-center gap-3">
+          {% if u.profile_picture %}<img class="avatar-sm" src="{{ u.profile_picture.url }}" alt="" onerror="this.style.display='none'" />{% else %}<span class="avatar-sm td-avatar-fallback">{{ u.username|slice:":1"|upper }}</span>{% endif %}
+          <div class="min-w-0 flex-1">
+            <div class="text-sm font-semibold truncate">{{ u.get_full_name|default:u.username }}</div>
+            <div class="text-xs text-ink-500">@{{ u.username }}</div>
+          </div>
+          <span class="badge badge-violet text-xs">{{ u.done_count }} done</span>
+        </li>
+        {% empty %}
+        <li class="text-sm text-ink-500">No completed assignments yet.</li>
+        {% endfor %}
+      </ul>
+    </article>
+  </section>
+
+  <section class="glass-card p-5 fadeUp">
+    <div class="flex items-center justify-between">
+      <div>
+        <div class="text-xs font-bold uppercase tracking-wider text-ink-500">Activity</div>
+        <h2 class="sec-title mt-1" style="font-size:1.25rem;">Recent task activity</h2>
+      </div>
+      <span class="badge badge-brand text-xs">Last 8 updates</span>
+    </div>
+    <ol class="td-timeline mt-4">
+      {% for t in recent_activity %}
+      <li class="td-tl-item">
+        <span class="td-tl-dot td-tl-dot-{{ t.status }}"></span>
+        <div class="td-tl-content">
+          <div class="td-tl-title">
+            <a href="{% url 'view_task_detail' t.id %}" class="hover:underline">{{ t.title|truncatechars:48 }}</a>
+          </div>
+          <div class="td-tl-meta">
+            <span class="badge status-{{ t.status }} text-xs">{{ t.get_status_display }}</span>
+            {% if t.project %}<span class="badge badge-brand text-xs">{{ t.project.name|truncatechars:18 }}</span>{% endif %}
+            <span class="text-ink-500">updated {{ t.updated_at|date:"M d, H:i" }}</span>
+          </div>
+        </div>
+      </li>
+      {% empty %}
+      <li class="text-sm text-ink-500">No recent activity yet.</li>
+      {% endfor %}
+    </ol>
+  </section>
+
+</div>
+{% endblock %}

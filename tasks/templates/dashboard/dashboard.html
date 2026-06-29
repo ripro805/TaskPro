@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard — TaskPro{% endblock %}
+{% block content %}
+<div class="my-6">
+  <h1 class="text-3xl font-extrabold mb-1 fadeUp">Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
+  <p class="text-ink-600 mb-6 fadeUp">Pick a workspace to continue.</p>
+  <div class="grid md:grid-cols-3 gap-4">
+    {% if 'Manager' in request.user.groups.all|join:',' %}<a href="{% url 'manager_dashboard' %}" class="glass-card p-6 fadeUp block hover:scale-[1.02] transition"><h3 class="text-xl font-bold">Manager</h3><p class="text-ink-600 text-sm mt-1">Project overview &amp; assignments</p></a>{% endif %}
+    {% if 'Employee' in request.user.groups.all|join:',' %}<a href="{% url 'employee_dashboard' %}" class="glass-card p-6 fadeUp block hover:scale-[1.02] transition"><h3 class="text-xl font-bold">Employee</h3><p class="text-ink-600 text-sm mt-1">Your tasks &amp; progress</p></a>{% endif %}
+    <a href="{% url 'view_tasks' %}" class="glass-card p-6 fadeUp block hover:scale-[1.02] transition"><h3 class="text-xl font-bold">Tasks</h3><p class="text-ink-600 text-sm mt-1">All task list</p></a>
+  </div>
+</div>
+{% endblock %}

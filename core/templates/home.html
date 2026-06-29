@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}TaskPro → Plan, Assign, Deliver. Like a pro.{% endblock %}
+
+{% block content %}
+
+<!-- ============================== HERO ============================== -->
+<section class="hero-shell relative overflow-hidden">
+  <div class="hero-grid-bg"></div>
+  <div class="container-x section relative z-10">
+    <div class="grid lg:grid-cols-12 gap-10 items-center">
+      <div class="lg:col-span-6 anim-fade-up">
+        <span class="hero-eyebrow"><span class="pulse"></span> New → Smart Dashboards 2.0 are live</span>
+        <h1 class="hero-title mt-4">Plan, assign &amp; deliver <span class="grad">like a pro</span>.</h1>
+        <p class="hero-sub">TaskPro is the premium task management suite for modern teams. Spin up projects, assign work, track progress, and ship faster with dashboards that actually look as good as your work.</p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a class="btn btn-primary btn-xl" href="/users/sign-up/">Start free →</a>
+          <a class="btn btn-ghost btn-xl" href="/users/sign-in/">Sign in</a>
+        </div>
+        <div class="mt-6 flex items-center gap-4 text-sm text-white/80">
+          <div class="flex -space-x-2">
+            <span class="w-8 h-8 rounded-full border-2 border-white/30" style="background:linear-gradient(135deg,#22d3ee,#3b82f6)"></span>
+            <span class="w-8 h-8 rounded-full border-2 border-white/30" style="background:linear-gradient(135deg,#8b5cf6,#ec4899)"></span>
+            <span class="w-8 h-8 rounded-full border-2 border-white/30" style="background:linear-gradient(135deg,#10b981,#06b6d4)"></span>
+            <span class="w-8 h-8 rounded-full border-2 border-white/30" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"></span>
+          </div>
+          <span><strong class="text-white">4,200+</strong> teams already shipping with TaskPro</span>
+        </div>
+      </div>
+      <div class="lg:col-span-6">
+        <div class="mockup-window anim-float">
+          <div class="mockup-bar"><span></span><span></span><span></span><span class="mockup-url">app.taskpro.io / projects / launch-q3</span></div>
+          <div class="mockup-body">
+            <div class="mockup-side">
+              <div class="mockup-row is-active"></div>
+              <div class="mockup-row"></div>
+              <div class="mockup-row"></div>
+              <div class="mockup-row"></div>
+              <div class="mockup-row"></div>
+            </div>
+            <div class="mockup-main">
+              <div class="mockup-tabs"><span class="is-on">Overview</span><span>Board</span><span>Activity</span><span>Files</span></div>
+              <div class="mockup-cards">
+                <div class="mockup-card"><b>Design system</b><span>12 tasks</span><i style="background:linear-gradient(90deg,#3b63ff,#8b5cf6)"></i></div>
+                <div class="mockup-card"><b>API rollout</b><span>8 tasks</span><i style="background:linear-gradient(90deg,#22d3ee,#10b981)"></i></div>
+                <div class="mockup-card"><b>Marketing site</b><span>15 tasks</span><i style="background:linear-gradient(90deg,#f59e0b,#ef4444)"></i></div>
+                <div class="mockup-card"><b>Onboarding</b><span>6 tasks</span><i style="background:linear-gradient(90deg,#ec4899,#8b5cf6)"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-floats">
+          <div class="blob blob-1"></div>
+          <div class="blob blob-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ============================== FEATURES ============================== -->
+<section class="section" id="features">
+  <div class="container-x">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="eyebrow">Everything you need</span>
+      <h2 class="sec-title">A premium workspace for every kind of team</h2>
+      <p class="sec-sub">From sprint planning to quarterly OKRs, TaskPro brings clarity and momentum to the way your team works.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon alt1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18"/></svg></div><h3>Smart Boards</h3><p>Kanban, list and timeline views with customisable workflows that match how your team ships.</p></div>
+      <div class="feat-card"><div class="feat-icon alt2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M14 20c0-2 2-3.5 4-3.5s4 1.5 4 3.5"/></svg></div><h3>Role-Based Access</h3><p>Admins, managers, members and guests → set granular permissions per project with a single click.</p></div>
+      <div class="feat-card"><div class="feat-icon alt3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M7 15l3-4 3 2 5-7"/></svg></div><h3>Real-Time Insights</h3><p>Live dashboards, burn-down charts and velocity reports so you always know the health of the project.</p></div>
+      <div class="feat-card"><div class="feat-icon alt4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 8.5 8.5 0 0 1-8.5-8.5A8.5 8.5 0 0 1 12 3a8.38 8.38 0 0 1 9 8.5z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg></div><h3>Comments &amp; @Mentions</h3><p>Threaded discussions, mentions, reactions and inline file previews → keep every conversation in context.</p></div>
+      <div class="feat-card"><div class="feat-icon alt5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg></div><h3>Automations</h3><p>If-this-then-that rules, recurring tasks and webhook integrations that take the busywork off your plate.</p></div>
+      <div class="feat-card"><div class="feat-icon alt1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Approval Flows</h3><p>Sign-off on critical tasks with full audit trails so nothing slips through the cracks.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== HOW IT WORKS ============================== -->
+<section class="section how-bg" id="how">
+  <div class="container-x">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="eyebrow">How it works</span>
+      <h2 class="sec-title">Get your team shipping in three simple steps</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-card"><div class="how-step">01</div><h3>Create a workspace</h3><p>Spin up a workspace for your team, invite your people and pick the template that fits the job.</p></div>
+      <div class="how-card"><div class="how-step">02</div><h3>Plan your work</h3><p>Break projects into tasks, set owners, due dates and dependencies with a few clicks.</p></div>
+      <div class="how-card"><div class="how-step">03</div><h3>Ship &amp; celebrate</h3><p>Track progress in real time, share wins with stakeholders and iterate faster every week.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SHOWCASE ============================== -->
+<section class="section" id="showcase">
+  <div class="container-x">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="eyebrow">The dashboard</span>
+      <h2 class="sec-title">One place for the whole story</h2>
+      <p class="sec-sub">From a quick morning standup to a quarterly review, the TaskPro dashboard gives you a clear picture in seconds.</p>
+    </div>
+    <div class="showcase-grid">
+      <div class="tab-list">
+        <button class="tab-btn is-on">Overview</button>
+        <button class="tab-btn">My Tasks</button>
+        <button class="tab-btn">Calendar</button>
+        <button class="tab-btn">Reports</button>
+      </div>
+      <div class="showcase-body">
+        <div class="dash-mock">
+          <div class="dash-side">
+            <div class="dash-side-h">Projects</div>
+            <div class="dash-side-item is-on"><span></span> Launch Q3</div>
+            <div class="dash-side-item"><span></span> Onboarding</div>
+            <div class="dash-side-item"><span></span> Mobile app</div>
+            <div class="dash-side-item"><span></span> Marketing site</div>
+          </div>
+          <div class="dash-main">
+            <div class="dash-head"><h4>Launch Q3</h4><span class="dash-tag">On track</span></div>
+            <div class="dash-kpis">
+              <div class="kpi"><b>62%</b><i>Complete</i></div>
+              <div class="kpi"><b>34</b><i>Open tasks</i></div>
+              <div class="kpi"><b>9</b><i>At risk</i></div>
+              <div class="kpi"><b>12d</b><i>To launch</i></div>
+            </div>
+            <div class="dash-chart"></div>
+            <div class="dash-list">
+              <div class="dash-list-item"><span class="dot ok"></span> Ship onboarding emails <i>Today</i></div>
+              <div class="dash-list-item"><span class="dot warn"></span> Review pricing page <i>Tomorrow</i></div>
+              <div class="dash-list-item"><span class="dot ok"></span> QA on dashboard 2.0 <i>Wed</i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PRICING ============================== -->
+<section class="section" id="pricing">
+  <div class="container-x">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="eyebrow">Pricing</span>
+      <h2 class="sec-title">Simple, transparent pricing</h2>
+      <p class="sec-sub">Start free. Upgrade only when your team is ready.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-h">Starter</div>
+        <div class="price-amount"><span class="cur">$</span><b>0</b><span class="per">/forever</span></div>
+        <p class="price-sub">For individuals &amp; tiny teams</p>
+        <ul class="price-features">
+          <li><span class="ck">✓</span> Up to 5 members</li>
+          <li><span class="ck">✓</span> 3 active projects</li>
+          <li><span class="ck">✓</span> Kanban &amp; list views</li>
+          <li><span class="ck">✓</span> 1 GB file storage</li>
+          <li><span class="ck">✓</span> Community support</li>
+        </ul>
+        <a class="btn btn-ghost btn-xl w-full" href="/users/sign-up/">Start free →</a>
+      </div>
+      <div class="price-card featured">
+        <div class="ribbon">Most popular</div>
+        <div class="price-h">Pro</div>
+        <div class="price-amount"><span class="cur">$</span><b>9</b><span class="per">/user / mo</span></div>
+        <p class="price-sub">For growing teams that ship every week</p>
+        <ul class="price-features">
+          <li><span class="ck">✓</span> Unlimited members</li>
+          <li><span class="ck">✓</span> Unlimited projects</li>
+          <li><span class="ck">✓</span> Timeline, calendar &amp; dashboards</li>
+          <li><span class="ck">✓</span> 100 GB file storage</li>
+          <li><span class="ck">✓</span> Automations &amp; integrations</li>
+          <li><span class="ck">✓</span> Priority support</li>
+        </ul>
+        <a class="btn btn-primary btn-xl w-full" href="/users/sign-up/">Start free →</a>
+      </div>
+      <div class="price-card">
+        <div class="price-h">Enterprise</div>
+        <div class="price-amount"><span class="cur">$</span><b>29</b><span class="per">/user / mo</span></div>
+        <p class="price-sub">For organisations with custom needs</p>
+        <ul class="price-features">
+          <li><span class="ck">✓</span> SSO &amp; SCIM</li>
+          <li><span class="ck">✓</span> Audit logs &amp; data residency</li>
+          <li><span class="ck">✓</span> Dedicated success manager</li>
+          <li><span class="ck">✓</span> 99.99% uptime SLA</li>
+          <li><span class="ck">✓</span> Custom security review</li>
+        </ul>
+        <a class="btn btn-ghost btn-xl w-full" href="/users/sign-up/">Talk to sales →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TESTIMONIALS ============================== -->
+<section class="section" id="testimonials">
+  <div class="container-x">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="eyebrow">Loved by teams</span>
+      <h2 class="sec-title">What our customers say</h2>
+    </div>
+    <div class="t-grid">
+      <div class="t-card">
+        <div class="stars">……………</div>
+        <p class="t-quote">"TaskPro replaced three tools for us. Our planning meetings are 40% shorter and we ship every Friday without panic."</p>
+        <div class="person"><div class="av a1"></div><div><div class="who">Sara K.</div><div class="role">Head of Product, Nimbus</div></div></div>
+      </div>
+      <div class="t-card">
+        <div class="stars">……………</div>
+        <p class="t-quote">"The dashboards alone are worth it. I open one tab in the morning and I know exactly where the team stands."</p>
+        <div class="person"><div class="av a2"></div><div><div class="who">Daniel R.</div><div class="role">Engineering Lead, Helio</div></div></div>
+      </div>
+      <div class="t-card">
+        <div class="stars">……………</div>
+        <p class="t-quote">"Onboarding new teammates is painless. Role-based access means we can give clients a window without exposing the rest."</p>
+        <div class="person"><div class="av a3"></div><div><div class="who">Maya P.</div><div class="role">Operations, Quanta</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== FAQ ============================== -->
+<section class="section" id="faq">
+  <div class="container-x">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="sec-title">Frequently asked questions</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item"><summary>Is there really a free plan?</summary><p>Yes. The Starter plan is free forever for up to 5 members and 3 active projects. No credit card needed.</p></details>
+      <details class="faq-item"><summary>Can I import from other tools?</summary><p>Yes → TaskPro imports from Trello, Asana, Jira, ClickUp and CSV in a couple of clicks.</p></details>
+      <details class="faq-item"><summary>Do you offer student or non-profit discounts?</summary><p>We do. Verified students and registered non-profits get 50% off the Pro plan. Contact support to apply.</p></details>
+      <details class="faq-item"><summary>Where is my data stored?</summary><p>Data is stored in encrypted, SOC 2 compliant data centres. Enterprise customers can pick their region.</p></details>
+      <details class="faq-item"><summary>Can I cancel anytime?</summary><p>Absolutely. You can downgrade or cancel from your billing page at any time. No contracts, no surprises.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CTA ============================== -->
+<section class="cta-banner">
+  <div class="container-x">
+    <div class="cta-inner">
+      <div>
+        <h2 class="cta-title">Ready to ship like a pro?</h2>
+        <p class="cta-sub">Join 4,200+ teams who plan, assign and deliver with TaskPro.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary btn-xl" href="/users/sign-up/">Start free →</a>
+        <a class="btn btn-ghost btn-xl" href="/users/sign-in/">Sign in</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

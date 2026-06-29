@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Delete task — TaskPro{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto my-12">
+  <div class="glass-card p-8 fadeUp text-center">
+    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center mx-auto mb-4">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 class="text-2xl font-extrabold mb-2">Delete this task?</h1>
+    <p class="text-ink-600 mb-6">"{{ task.title }}" will be permanently removed. This cannot be undone.</p>
+    <form method="post" class="flex gap-2 justify-center">{% csrf_token %}
+      <a class="btn-ghost" href="{% url 'view_task_detail' task.id %}">Cancel</a>
+      <button class="btn-danger" type="submit">Yes, delete</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

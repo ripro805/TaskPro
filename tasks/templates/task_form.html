@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}{% if form.instance.pk %}Edit task{% else %}New task{% endif %} — TaskPro{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto my-6">
+  <div class="glass-card p-8 fadeUp">
+    <h1 class="text-2xl font-extrabold mb-1">{% if form.instance.pk %}Edit task{% else %}Create new task{% endif %}</h1>
+    <p class="text-ink-600 mb-6">Fill in the details below.</p>
+    <form method="post" enctype="multipart/form-data" class="space-y-5">{% csrf_token %}
+      <div>
+        <label class="text-sm font-semibold">Title</label>
+        <input class="input mt-1" name="title" value="{{ form.title.value|default_if_none:'' }}" required />
+      </div>
+      <div>
+        <label class="text-sm font-semibold">Description</label>
+        <textarea class="textarea mt-1" name="description" rows="4">{{ form.description.value|default_if_none:'' }}</textarea>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div><label class="text-sm font-semibold">Due date</label><input class="input mt-1" type="date" name="due_date" value="{{ form.due_date.value|date:'Y-m-d' }}" required /></div>
+        <div><label class="text-sm font-semibold">Project</label>
+          <select class="select mt-1" name="project" required>
+            <option value="">Select project…</option>
+            {% for p in projects %}<option value="{{ p.id }}" {% if form.project.value|stringformat:"s" == p.id|stringformat:"s" %}selected{% endif %}>{{ p.name }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-sm font-semibold">Status</label>
+        <select class="select mt-1" name="status">
+          {% for value,label in status_choices %}<option value="{{ value }}" {% if value == form.status.value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="text-sm font-semibold">Assigned to</label>
+        <select class="select mt-1" name="assigned_to" multiple size="4">
+          {% for u in team_members %}<option value="{{ u.id }}" {% if u in form.assigned_to.value %}selected{% endif %}>{{ u.username }} — {{ u.email }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div><label class="text-sm font-semibold">Priority</label>
+          <select class="select mt-1" name="priority">
+            {% for value,label in priorities %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+          </select>
+        </div>
+        <div><label class="text-sm font-semibold">Asset image</label><input class="input mt-1" type="file" name="asset_image" accept="image/*" /></div>
+      </div>
+      <div><label class="text-sm font-semibold">Caption</label><input class="input mt-1" name="asset_caption" /></div>
+      <div><label class="text-sm font-semibold">Notes</label><textarea class="textarea mt-1" name="notes" rows="3"></textarea></div>
+      {% if form.errors %}<div class="alert alert-danger">{{ form.errors }}</div>{% endif %}
+      <div class="flex gap-2 justify-end">
+        <a class="btn-ghost" href="{% url 'view_tasks' %}">Cancel</a>
+        <button class="btn-primary" type="submit">{% if form.instance.pk %}Save changes{% else %}Create task{% endif %}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

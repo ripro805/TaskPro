@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Users — TaskPro{% endblock %}
+{% block content %}
+<div class="my-6">
+  <div class="flex items-center justify-between mb-6 fadeUp">
+    <h1 class="text-3xl font-extrabold">All Users</h1>
+    <a class="btn-secondary" href="{% url 'admin_dashboard' %}">← Back</a>
+  </div>
+  <div class="glass-card p-4 fadeUp">
+    <div class="overflow-x-auto">
+      <table class="table-premium">
+        <thead><tr><th>User</th><th>Email</th><th>Groups</th><th>Joined</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td><div class="font-semibold">{{ u.get_full_name|default:u.username }}</div><div class="text-xs text-ink-500">@{{ u.username }}</div></td>
+            <td>{{ u.email }}</td>
+            <td>{% for g in u.groups.all %}<span class="badge badge-brand">{{ g.name }}</span>{% endfor %}</td>
+            <td>{{ u.date_joined|date:"M d, Y" }}</td>
+            <td>{% if u.is_active %}<span class="badge badge-success">Active</span>{% else %}<span class="badge badge-danger">Inactive</span>{% endif %}</td>
+            <td><a class="btn-ghost" href="{% url 'assign_role' %}?user={{ u.id }}">Assign role</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

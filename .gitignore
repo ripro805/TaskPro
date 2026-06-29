@@ -1,0 +1,62 @@
+# ---- Python / venv ----
+task_env/
+task_env_new/
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.python-version
+
+# ---- Django ----
+*.log
+db.sqlite3
+db.sqlite3-journal
+local_settings.py
+staticfiles/
+media/
+
+# ---- Node / Tailwind ----
+node_modules/
+.npm/
+.cache/
+
+# ---- Editor / OS ----
+.vscode/
+.puku/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Env / secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- Diag / scratch files ----
+_probe*.py
+_probe*.ps1
+_probe*.out
+_check_models.py
+check_models.py
+check_perms.py
+populate_db.py
+seed_employee.py
+_write_*.py
+_patch_settings.py
+_inspect.py
+_role_check.py
+_run_dj.cmd
+_tmplist.ps1
+probe_*.py
+tasks_env_show_tasks.py
+*.dump
+*.bak
+*.err
+server.err
+srv.err
+smoke.err
+tmpclaude-*/
+*.out
+tmpclaude-*-cwd

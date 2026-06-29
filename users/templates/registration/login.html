@@ -1,0 +1,173 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sign in to TaskPro{% endblock %}
+{% block content %}
+<div class="au-shell">
+  <!-- Left: Login form -->
+  <section class="au-form-side">
+    <div class="au-form-inner">
+      <div class="au-card fadeUp" id="loginCard">
+        <div class="au-card-head">
+          <div class="brand-row">
+            <span class="brand-mark"></span>
+            <span>TaskPro</span>
+          </div>
+          <span class="eyebrow">Welcome back</span>
+          <h1>Sign in to your workspace</h1>
+          <p>Pick up where you left off — your team's progress is waiting.</p>
+        </div>
+
+        <!-- Social sign in -->
+        <div class="au-social" aria-label="Sign in with social account">
+          <a href="#" class="au-social-btn" aria-label="Sign in with Google" onclick="event.preventDefault();">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.4-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.2 5.2C40.9 36 44 30.5 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+            <span>Google</span>
+          </a>
+          <a href="#" class="au-social-btn" aria-label="Sign in with GitHub" onclick="event.preventDefault();">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.6-1.3-1.6-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+            <span>GitHub</span>
+          </a>
+          <a href="#" class="au-social-btn" aria-label="Sign in with Microsoft" onclick="event.preventDefault();">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#F25022" d="M2 2h9.5v9.5H2z"/><path fill="#7FBA00" d="M12.5 2H22v9.5h-9.5z"/><path fill="#00A4EF" d="M2 12.5h9.5V22H2z"/><path fill="#FFB900" d="M12.5 12.5H22V22h-9.5z"/></svg>
+            <span>Microsoft</span>
+          </a>
+        </div>
+
+        <div class="au-divider"><span>or sign in with email</span></div>
+
+        <form method="post" id="loginForm" novalidate>{% csrf_token %}
+          {% if form.non_field_errors %}
+            <div class="au-error" style="background:rgba(239,68,68,.08); padding:.65rem .85rem; border-radius:10px; margin-bottom:1rem; border:1px solid rgba(239,68,68,.30);">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <div class="au-field" data-au-field>
+            <label class="au-label" for="id_username">Username or email</label>
+            <span class="au-icon-left">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <input id="id_username" class="au-input" type="text" name="username" placeholder="janedoe" required autofocus autocomplete="username" />
+            {% if form.username.errors %}<div class="au-error">{{ form.username.errors.0 }}</div>{% endif %}
+          </div>
+
+          <div class="au-field" data-au-field>
+            <label class="au-label" for="id_password">Password</label>
+            <span class="au-icon-left">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <input id="id_password" class="au-input has-icon-right" type="password" name="password" placeholder="Your password" required autocomplete="current-password" />
+            <button type="button" class="au-icon-right" data-toggle-password="id_password" aria-label="Show password">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            {% if form.password.errors %}<div class="au-error">{{ form.password.errors.0 }}</div>{% endif %}
+          </div>
+
+          <div class="au-row-between">
+            <label class="au-check">
+              <input type="checkbox" name="remember" />
+              <span>Remember me</span>
+            </label>
+            <a class="au-forgot" href="{% url 'password_reset' %}">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="au-submit" id="loginSubmit">
+            <span class="label">Sign in</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </button>
+
+          <div class="au-card-foot">
+            New to TaskPro? <a href="{% url 'sign_up' %}">Create an account</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Right: Hero art -->
+  <aside class="au-art-side">
+    <div class="au-art-inner">
+      <span class="au-art-badge">✦ Trusted by 12,000+ teams worldwide</span>
+      <div class="au-art-brand">
+        <span class="brand-mark" style="width:34px;height:34px;"></span>
+        <span>TaskPro</span>
+      </div>
+      <h2 class="au-art-title">Welcome back to <em>flow state.</em></h2>
+      <p class="au-art-sub">Sign in to access your boards, sprints, and analytics — beautifully synchronized across every device.</p>
+
+      <div class="au-art-features stagger">
+        <div class="item">
+          <span class="dot">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <div>
+            <strong>Stay in sync, everywhere</strong>
+            <div style="color:rgba(255,255,255,.7); font-size:.85rem;">Real-time updates across web, desktop &amp; mobile.</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="dot">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 4 4 5-5"/></svg>
+          </span>
+          <div>
+            <strong>Insights that drive action</strong>
+            <div style="color:rgba(255,255,255,.7); font-size:.85rem;">Burndown charts, velocity, and team workload.</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="dot">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </span>
+          <div>
+            <strong>Your data, always secure</strong>
+            <div style="color:rgba(255,255,255,.7); font-size:.85rem;">End-to-end encryption, SOC 2 Type II, GDPR.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="au-art-stats">
+        <div class="stat"><div class="stat-num">4.2M+</div><div class="stat-lbl">Tasks shipped</div></div>
+        <div class="stat"><div class="stat-num">99.99%</div><div class="stat-lbl">Uptime</div></div>
+        <div class="stat"><div class="stat-num">4.9★</div><div class="stat-lbl">User rating</div></div>
+      </div>
+
+      <div class="au-art-bottom">
+        <span class="au-trust">SOC 2 ready</span>
+        <span class="au-trust">GDPR compliant</span>
+        <span>© 2026 TaskPro</span>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('[data-au-field] .au-input').forEach(function(inp){
+    inp.addEventListener('focus', function(){ inp.closest('[data-au-field]').classList.add('is-focused'); });
+    inp.addEventListener('blur',  function(){ inp.closest('[data-au-field]').classList.remove('is-focused'); });
+  });
+
+  document.querySelectorAll('[data-toggle-password]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var t = document.getElementById(btn.getAttribute('data-toggle-password'));
+      if(!t) return;
+      if(t.type === 'password'){ t.type = 'text'; btn.setAttribute('aria-label','Hide password'); }
+      else { t.type = 'password'; btn.setAttribute('aria-label','Show password'); }
+    });
+  });
+
+  var form = document.getElementById('loginForm');
+  var submit = document.getElementById('loginSubmit');
+  if(form && submit){
+    form.addEventListener('submit', function(){
+      submit.disabled = true;
+      submit.querySelector('.label').textContent = 'Signing you in…';
+      var sp = document.createElement('span'); sp.className = 'spinner';
+      submit.appendChild(sp);
+      setTimeout(function(){ submit.disabled = false; submit.querySelector('.label').textContent = 'Sign in'; if(sp.parentNode) sp.remove(); }, 8000);
+    });
+  }
+})();
+</script>
+{% endblock %}
+

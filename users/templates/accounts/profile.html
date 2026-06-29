@@ -1,0 +1,112 @@
+﻿{% extends "base.html" %}
+{% load static %}
+{% block title %}My Profile \u2014 TaskPro{% endblock %}
+{% block content %}
+<div class="pf-shell">
+  <section class="pf-cover fadeUp">
+    <div class="pf-cover-inner">
+      <div class="pf-avatar-wrap">
+        {% if user.profile_picture %}
+          <img class="pf-avatar" src="{{ user.profile_picture.url }}" alt="" />
+        {% else %}
+          <div class="pf-avatar pf-avatar-fallback"><span>{{ user.get_full_name|default:user.username|slice:":1"|upper }}</span></div>
+        {% endif %}
+        <span class="pf-avatar-status {% if user.is_active %}on{% else %}off{% endif %}"></span>
+      </div>
+      <div class="pf-cover-meta">
+        <h1 class="pf-cover-name">{{ user.get_full_name|default:user.username }}</h1>
+        <div class="pf-cover-handle">@{{ user.username }} \u00b7 {{ user.email }}</div>
+        {% if user.bio %}<p class="pf-cover-bio">{{ user.bio }}</p>{% endif %}
+        <div class="pf-cover-badges">
+          {% for g in user.groups.all %}<span class="pf-badge brand">{{ g.name }}</span>{% endfor %}
+          {% if user.is_superuser %}<span class="pf-badge warning">Superadmin</span>{% endif %}
+          {% if user.is_active %}<span class="pf-badge success">Active</span>{% else %}<span class="pf-badge warning">Inactive</span>{% endif %}
+        </div>
+        <div class="pf-cover-actions">
+          <a class="pf-btn pf-btn-light" href="{% url 'edit_profile' %}">Edit Profile</a>
+          <a class="pf-btn pf-btn-glass" href="{% url 'password_change' %}">Change Password</a>
+          <a class="pf-btn pf-btn-glass" href="{% url 'dashboard' %}">Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pf-stats fadeUp">
+    <div class="pf-stat brand"><div class="pf-stat-icon">PR</div><div class="pf-stat-label">Projects</div><div class="pf-stat-value">{{ project_count|default:0 }}</div><div class="pf-stat-delta up">Active</div></div>
+    <div class="pf-stat violet"><div class="pf-stat-icon">TS</div><div class="pf-stat-label">Total Tasks</div><div class="pf-stat-value">{{ task_count|default:0 }}</div><div class="pf-stat-delta up">Assigned</div></div>
+    <div class="pf-stat success"><div class="pf-stat-icon">OK</div><div class="pf-stat-label">Completed</div><div class="pf-stat-value">{{ completed_count|default:0 }}</div><div class="pf-stat-delta up">Done</div></div>
+    <div class="pf-stat warning"><div class="pf-stat-icon">PCT</div><div class="pf-stat-label">Achievement</div><div class="pf-stat-value">{{ completion_rate|default:0 }}%</div><div class="pf-stat-delta up">Rate</div></div>
+  </section>
+  <div class="pf-grid">
+    <main class="pf-main">
+      <article class="pf-card fadeUp">
+        <header class="pf-card-head"><h3>Personal Information</h3><span class="pf-card-sub">Account details</span></header>
+        <div class="pf-card-body">
+          <div class="pf-info-grid">
+            <div class="pf-info"><div class="k">Full name</div><div class="v">{{ user.get_full_name|default:user.username }}</div></div>
+            <div class="pf-info"><div class="k">Username</div><div class="v">@{{ user.username }}</div></div>
+            <div class="pf-info"><div class="k">Email</div><div class="v">{{ user.email|default:"\u2014" }}</div></div>
+            <div class="pf-info"><div class="k">Date joined</div><div class="v">{{ user.date_joined|date:"M d, Y" }}</div></div>
+            <div class="pf-info"><div class="k">Last login</div><div class="v">{{ user.last_login|date:"M d, Y H:i"|default:"\u2014" }}</div></div>
+            <div class="pf-info"><div class="k">Status</div><div class="v">{% if user.is_active %}<span class="pf-badge success">Active</span>{% else %}<span class="pf-badge warning">Inactive</span>{% endif %}</div></div>
+          </div>
+        </div>
+      </article>
+      <article class="pf-card fadeUp">
+        <header class="pf-card-head"><h3>Productivity Overview</h3><span class="pf-card-sub">7-day activity</span></header>
+        <div class="pf-card-body">
+          <div class="pf-progress-row"><span>Task completion</span><span>{{ completion_rate|default:0 }}%</span></div>
+          <div class="pf-progress"><span style="width: {{ completion_rate|default:0 }}%"></span></div>
+          <svg class="pf-chart" viewBox="0 0 600 160" preserveAspectRatio="none" aria-hidden="true">
+            <defs><linearGradient id="pfGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b63ff" stop-opacity=".35"/><stop offset="100%" stop-color="#3b63ff" stop-opacity="0"/></linearGradient></defs>
+            <g stroke="rgba(225,229,243,.9)" stroke-width="1"><line x1="0" y1="40" x2="600" y2="40"/><line x1="0" y1="80" x2="600" y2="80"/><line x1="0" y1="120" x2="600" y2="120"/></g>
+            <path d="M0,120 L86,90 L172,110 L258,70 L344,95 L430,55 L516,75 L600,40 L600,160 L0,160 Z" fill="url(#pfGrad)"/>
+            <path d="M0,120 L86,90 L172,110 L258,70 L344,95 L430,55 L516,75 L600,40" fill="none" stroke="#3b63ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </article>
+      <article class="pf-card fadeUp">
+        <header class="pf-card-head"><h3>Recent Activity</h3><span class="pf-card-sub">Account timeline</span></header>
+        <div class="pf-card-body">
+          <ul class="pf-timeline">
+            {% if user.last_login %}<li class="pf-tl-item"><span class="pf-tl-dot success"></span><div><div class="pf-tl-title">Last sign in</div><div class="pf-tl-meta">{{ user.last_login|date:"M d, Y H:i" }}</div></div></li>{% endif %}
+            <li class="pf-tl-item"><span class="pf-tl-dot"></span><div><div class="pf-tl-title">Account created</div><div class="pf-tl-meta">{{ user.date_joined|date:"M d, Y H:i" }}</div></div></li>
+            {% for g in user.groups.all %}<li class="pf-tl-item"><span class="pf-tl-dot warning"></span><div><div class="pf-tl-title">Role: {{ g.name }}</div><div class="pf-tl-meta">Granted permission set</div></div></li>{% endfor %}
+            <li class="pf-tl-item"><span class="pf-tl-dot success"></span><div><div class="pf-tl-title">Profile is {% if user.bio %}complete{% else %}incomplete\u2014add a bio{% endif %}</div><div class="pf-tl-meta">Visibility: public</div></div></li>
+          </ul>
+        </div>
+      </article>
+    </main>
+    <aside class="pf-side">
+      <section class="pf-card pf-side-card fadeUp">
+        <header class="pf-card-head"><h3>Quick Actions</h3><span class="pf-card-sub">Shortcuts</span></header>
+        <div class="pf-card-body">
+          <ul class="pf-quick-list">
+            <li><a href="{% url 'dashboard' %}"><span class="ic">D</span><span>Dashboard</span></a></li>
+            <li><a href="{% url 'view_tasks' %}"><span class="ic">T</span><span>My Tasks</span></a></li>
+            <li><a href="{% url 'create-task' %}"><span class="ic">+</span><span>Create Task</span></a></li>
+            <li><a href="{% url 'edit_profile' %}"><span class="ic">E</span><span>Edit Profile</span></a></li>
+            <li><a href="{% url 'password_change' %}"><span class="ic">K</span><span>Change Password</span></a></li>
+          </ul>
+        </div>
+      </section>
+      <section class="pf-card pf-side-card fadeUp">
+        <header class="pf-card-head"><h3>Security</h3><span class="pf-card-sub">Account safety</span></header>
+        <div class="pf-card-body">
+          <div class="pf-security">
+            <div class="row"><span class="ic ok">+</span><div class="meta"><div class="t">Email verified</div><div class="s">{{ user.email|default:"Not set" }}</div></div></div>
+            <div class="row"><span class="ic {% if user.has_usable_password %}ok{% else %}warn{% endif %}">{% if user.has_usable_password %}+{% else %}!{% endif %}</span><div class="meta"><div class="t">Password set</div><div class="s">{% if user.has_usable_password %}Strong credential{% else %}Action required{% endif %}</div></div></div>
+            <div class="row"><span class="ic {% if user.is_active %}ok{% else %}warn{% endif %}">{% if user.is_active %}+{% else %}!{% endif %}</span><div class="meta"><div class="t">Account status</div><div class="s">{% if user.is_active %}Active{% else %}Disabled{% endif %}</div></div></div>
+            <div class="row"><span class="ic {% if user.is_superuser %}warn{% else %}ok{% endif %}">{% if user.is_superuser %}!{% else %}+{% endif %}</span><div class="meta"><div class="t">Privileged access</div><div class="s">{% if user.is_superuser %}Superuser\u2014use carefully{% else %}Standard{% endif %}</div></div></div>
+          </div>
+        </div>
+      </section>
+      <section class="pf-card pf-side-card fadeUp">
+        <header class="pf-card-head"><h3>Roles &amp; Groups</h3><span class="pf-card-sub">{{ user.groups.count }} assigned</span></header>
+        <div class="pf-card-body">
+          <div class="pf-skills">{% for g in user.groups.all %}<span class="pf-skill">{{ g.name }}</span>{% empty %}<span class="pf-card-sub">No groups assigned.</span>{% endfor %}</div>
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>
+{% endblock %}

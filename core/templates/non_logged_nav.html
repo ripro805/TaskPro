@@ -1,0 +1,19 @@
+{% load static %}
+<nav class="nav-shell sticky top-0 z-40">
+  <div class="container-x flex items-center justify-between h-16">
+    <a href="{% url 'home' %}" class="nav-brand flex items-center gap-2.5 group">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="text-lg font-extrabold tracking-tight">TaskPro</span>
+    </a>
+    <div class="hidden md:flex items-center gap-7 text-sm">
+      <a href="{% url 'home' %}#features" class="nav-link">Features</a>
+      <a href="{% url 'home' %}#how" class="nav-link">How it works</a>
+      <a href="{% url 'home' %}#pricing" class="nav-link">Pricing</a>
+      <a href="{% url 'home' %}#faq" class="nav-link">FAQ</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <a class="btn btn-ghost btn-sm" href="{% url 'sign_in' %}">Sign in</a>
+      <a class="btn btn-primary btn-sm" href="{% url 'sign_up' %}">Start free</a>
+    </div>
+  </div>
+</nav>

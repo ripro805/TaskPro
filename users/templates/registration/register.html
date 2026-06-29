@@ -1,0 +1,274 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block title %}Create your account — TaskPro{% endblock %}
+{% block content %}
+<div class="au-shell">
+  <!-- Left: Premium signup card -->
+  <section class="au-form-side">
+    <div class="au-form-inner">
+      <div class="au-card fadeUp" id="signupCard">
+        <div class="au-card-head">
+          <div class="brand-row">
+            <span class="brand-mark"></span>
+            <span>TaskPro</span>
+          </div>
+          <span class="eyebrow">Get started for free</span>
+          <h1>Create your account</h1>
+          <p>Join 12,000+ teams shipping faster with TaskPro.</p>
+        </div>
+
+        <!-- Social buttons -->
+        <div class="au-social" aria-label="Sign up with social account">
+          <a href="#" class="au-social-btn" aria-label="Sign up with Google" onclick="event.preventDefault();">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.4-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.2 5.2C40.9 36 44 30.5 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+            <span>Google</span>
+          </a>
+          <a href="#" class="au-social-btn" aria-label="Sign up with GitHub" onclick="event.preventDefault();">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.6-1.3-1.6-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+            <span>GitHub</span>
+          </a>
+          <a href="#" class="au-social-btn" aria-label="Sign up with Microsoft" onclick="event.preventDefault();">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#F25022" d="M2 2h9.5v9.5H2z"/><path fill="#7FBA00" d="M12.5 2H22v9.5h-9.5z"/><path fill="#00A4EF" d="M2 12.5h9.5V22H2z"/><path fill="#FFB900" d="M12.5 12.5H22V22h-9.5z"/></svg>
+            <span>Microsoft</span>
+          </a>
+        </div>
+
+        <div class="au-divider"><span>or sign up with email</span></div>
+
+        <form method="post" id="signupForm" novalidate>{% csrf_token %}
+          {% if form.non_field_errors %}
+            <div class="au-error" style="background:rgba(239,68,68,.08); padding:.65rem .85rem; border-radius:10px; margin-bottom:1rem; border:1px solid rgba(239,68,68,.30);">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <div class="au-field-row">
+            <div class="au-field" data-au-field>
+              <label class="au-label" for="id_first_name">First name</label>
+              <span class="au-icon-left">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <input id="id_first_name" class="au-input" type="text" name="first_name" placeholder="Jane" autocomplete="given-name" />
+            </div>
+            <div class="au-field" data-au-field>
+              <label class="au-label" for="id_last_name">Last name</label>
+              <span class="au-icon-left">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <input id="id_last_name" class="au-input" type="text" name="last_name" placeholder="Doe" autocomplete="family-name" />
+            </div>
+          </div>
+
+          <div class="au-field" data-au-field>
+            <label class="au-label" for="id_username">Username</label>
+            <span class="au-icon-left">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            <input id="id_username" class="au-input" type="text" name="username" placeholder="janedoe" required autocomplete="username" />
+            {% if form.username.errors %}<div class="au-error">{{ form.username.errors.0 }}</div>{% endif %}
+          </div>
+
+          <div class="au-field" data-au-field>
+            <label class="au-label" for="id_email">Work email</label>
+            <span class="au-icon-left">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            </span>
+            <input id="id_email" class="au-input" type="email" name="email" placeholder="you@company.com" required autocomplete="email" />
+            {% if form.email.errors %}<div class="au-error">{{ form.email.errors.0 }}</div>{% endif %}
+          </div>
+
+          <div class="au-field" data-au-field>
+            <label class="au-label" for="id_password">Password</label>
+            <span class="au-icon-left">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <input id="id_password" class="au-input has-icon-right" type="password" name="password" placeholder="Create a strong password" required autocomplete="new-password" />
+            <button type="button" class="au-icon-right" data-toggle-password="id_password" aria-label="Show password">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            {% if form.password.errors %}<div class="au-error">{{ form.password.errors.0 }}</div>{% endif %}
+
+            <div class="au-strength" aria-live="polite">
+              <div class="au-strength-track"><div class="au-strength-fill" id="pwStrength"></div></div>
+              <div class="au-strength-meta">
+                <span class="au-strength-label" id="pwStrengthLabel">Password strength</span>
+                <span id="pwStrengthPct">0%</span>
+              </div>
+              <ul class="au-strength-checks" id="pwChecks">
+                <li class="ck" data-rule="len"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 8+ characters</li>
+                <li class="ck" data-rule="upper"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Uppercase letter</li>
+                <li class="ck" data-rule="lower"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Lowercase letter</li>
+                <li class="ck" data-rule="digit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Number</li>
+                <li class="ck" data-rule="special"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Special character</li>
+                <li class="ck" data-rule="match"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Passwords match</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="au-field" data-au-field>
+            <label class="au-label" for="id_confirm_password">Confirm password</label>
+            <span class="au-icon-left">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <input id="id_confirm_password" class="au-input has-icon-right" type="password" name="confirm_password" placeholder="Re-enter your password" required autocomplete="new-password" />
+            <button type="button" class="au-icon-right" data-toggle-password="id_confirm_password" aria-label="Show password">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+            {% if form.confirm_password.errors %}<div class="au-error">{{ form.confirm_password.errors.0 }}</div>{% endif %}
+          </div>
+
+          <label class="au-check" style="margin: .25rem 0 1rem;">
+            <input type="checkbox" name="terms" required />
+            <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
+          </label>
+
+          <button type="submit" class="au-submit" id="signupSubmit">
+            <span class="label">Create account</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </button>
+
+          <div class="au-card-foot">
+            Already have an account? <a href="{% url 'sign_in' %}">Sign in</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Right: Hero art -->
+  <aside class="au-art-side">
+    <div class="au-art-inner">
+      <span class="au-art-badge">✦ Premium • Free during beta</span>
+      <div class="au-art-brand">
+        <span class="brand-mark" style="width:34px;height:34px;"></span>
+        <span>TaskPro</span>
+      </div>
+      <h2 class="au-art-title">Plan. Assign. Deliver. <em>Beautifully.</em></h2>
+      <p class="au-art-sub">The premium task management suite for modern teams. Replace chaos with calm — and ship faster.</p>
+
+      <div class="au-art-features stagger">
+        <div class="item">
+          <span class="dot">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <div>
+            <strong>Smart boards &amp; sprints</strong>
+            <div style="color:rgba(255,255,255,.7); font-size:.85rem;">Kanban, lists &amp; calendar that adapt to your workflow.</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="dot">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </span>
+          <div>
+            <strong>Real-time collaboration</strong>
+            <div style="color:rgba(255,255,255,.7); font-size:.85rem;">Live updates, mentions, and instant notifications.</div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="dot">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+          <div>
+            <strong>Enterprise-grade security</strong>
+            <div style="color:rgba(255,255,255,.7); font-size:.85rem;">SOC 2 ready, SSO, encryption at rest &amp; in transit.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="au-art-stats">
+        <div class="stat"><div class="stat-num">12K+</div><div class="stat-lbl">Teams onboard</div></div>
+        <div class="stat"><div class="stat-num">99.9%</div><div class="stat-lbl">Uptime SLA</div></div>
+        <div class="stat"><div class="stat-num">4.9★</div><div class="stat-lbl">Avg. rating</div></div>
+      </div>
+
+      <div class="au-art-bottom">
+        <span class="au-trust">SOC 2 ready</span>
+        <span class="au-trust">GDPR compliant</span>
+        <span>© 2026 TaskPro</span>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+(function(){
+  // Field focus tracking
+  document.querySelectorAll('[data-au-field] .au-input').forEach(function(inp){
+    inp.addEventListener('focus', function(){ inp.closest('[data-au-field]').classList.add('is-focused'); });
+    inp.addEventListener('blur',  function(){ inp.closest('[data-au-field]').classList.remove('is-focused'); });
+  });
+
+  // Toggle password visibility
+  document.querySelectorAll('[data-toggle-password]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var t = document.getElementById(btn.getAttribute('data-toggle-password'));
+      if(!t) return;
+      if(t.type === 'password'){ t.type = 'text'; btn.setAttribute('aria-label','Hide password'); }
+      else { t.type = 'password'; btn.setAttribute('aria-label','Show password'); }
+    });
+  });
+
+  // Password strength + match indicator
+  var pw = document.getElementById('id_password');
+  var pw2 = document.getElementById('id_confirm_password');
+  var bar = document.getElementById('pwStrength');
+  var label = document.getElementById('pwStrengthLabel');
+  var pct = document.getElementById('pwStrengthPct');
+  function score(v){
+    var s = 0;
+    if(v.length >= 8) s++;
+    if(/[A-Z]/.test(v)) s++;
+    if(/[a-z]/.test(v)) s++;
+    if(/[0-9]/.test(v)) s++;
+    if(/[^A-Za-z0-9]/.test(v)) s++;
+    return s;
+  }
+  function render(){
+    var v = pw.value || '';
+    var s = score(v);
+    var colors = ['#ef4444','#f59e0b','#f59e0b','#3b82f6','#10b981','#10b981'];
+    var labels = ['Too weak','Weak','Fair','Good','Strong','Excellent'];
+    var p = (s/5)*100;
+    bar.style.width = p + '%';
+    bar.style.background = colors[s];
+    label.textContent = labels[s];
+    label.style.color = colors[s];
+    pct.textContent = Math.round(p) + '%';
+
+    document.querySelectorAll('#pwChecks .ck').forEach(function(li){
+      var rule = li.getAttribute('data-rule');
+      var ok = false;
+      if(rule === 'len') ok = v.length >= 8;
+      else if(rule === 'upper') ok = /[A-Z]/.test(v);
+      else if(rule === 'lower') ok = /[a-z]/.test(v);
+      else if(rule === 'digit') ok = /[0-9]/.test(v);
+      else if(rule === 'special') ok = /[^A-Za-z0-9]/.test(v);
+      else if(rule === 'match') ok = v.length > 0 && v === pw2.value;
+      li.classList.toggle('met', ok);
+    });
+
+    // Field success state
+    document.getElementById('id_password').closest('.au-field').classList.toggle('has-success', s >= 4);
+    document.getElementById('id_confirm_password').closest('.au-field').classList.toggle('has-success', v.length > 0 && v === pw2.value);
+  }
+  if(pw){ pw.addEventListener('input', render); }
+  if(pw2){ pw2.addEventListener('input', render); }
+
+  // Submit loading state
+  var form = document.getElementById('signupForm');
+  var submit = document.getElementById('signupSubmit');
+  if(form && submit){
+    form.addEventListener('submit', function(){
+      submit.disabled = true;
+      submit.querySelector('.label').textContent = 'Creating account…';
+      var sp = document.createElement('span'); sp.className = 'spinner';
+      submit.appendChild(sp);
+      // Re-enable after a delay as fallback (in case of network error)
+      setTimeout(function(){ submit.disabled = false; submit.querySelector('.label').textContent = 'Create account'; if(sp.parentNode) sp.remove(); }, 8000);
+    });
+  }
+})();
+</script>
+{% endblock %}
+

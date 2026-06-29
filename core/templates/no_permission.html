@@ -1,0 +1,27 @@
+﻿{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Access Denied â€” TaskPro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="{% static 'css/premium.css' %}" />
+</head>
+<body class="bg-ink-50 min-h-screen flex items-center justify-center p-6">
+<div class="aurora"></div>
+<div class="glass-card p-10 max-w-md w-full text-center relative z-10 fadeUp">
+  <div class="mx-auto mb-6 w-20 h-20 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center shadow-2xl">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <h1 class="text-3xl font-extrabold mb-2">Access Denied</h1>
+  <p class="text-ink-600 mb-6">You don't have permission to view this page. Please contact your administrator if you believe this is a mistake.</p>
+  <div class="flex gap-3 justify-center">
+    <a href="{% url 'home' %}" class="btn-secondary">Go Home</a>
+    <a href="{% url 'sign_in' %}" class="btn-primary">Sign In</a>
+  </div>
+</div>
+</body>
+</html>
+

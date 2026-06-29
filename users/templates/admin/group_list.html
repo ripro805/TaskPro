@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Groups — TaskPro{% endblock %}
+{% block content %}
+<div class="my-6">
+  <div class="flex items-center justify-between mb-6 fadeUp">
+    <h1 class="text-3xl font-extrabold">Groups</h1>
+    <a class="btn-primary" href="{% url 'create_group' %}">+ New Group</a>
+  </div>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for g in groups %}
+    <div class="glass-card p-5 fadeUp">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-lg font-bold">{{ g.name }}</h3>
+        <span class="badge badge-violet">{{ g.permissions.count }} perm</span>
+      </div>
+      <p class="text-sm text-ink-600 mb-3">{{ g.user_set.count }} member{{ g.user_set.count|pluralize }}</p>
+      <div class="flex flex-wrap gap-1">
+        {% for p in g.permissions.all|slice:":4" %}<span class="badge">{{ p.codename }}</span>{% endfor %}
+        {% if g.permissions.count > 4 %}<span class="badge">+{{ g.permissions.count|add:"-4" }}</span>{% endif %}
+      </div>
+    </div>
+    {% empty %}
+    <div class="empty-state col-span-full">No groups yet. <a class="footer-link" href="{% url 'create_group' %}">Create one →</a></div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

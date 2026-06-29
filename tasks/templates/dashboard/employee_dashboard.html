@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Dashboard — TaskPro{% endblock %}
+
+{% block content %}
+<div class="my-6 space-y-8">
+
+  <section class="hero-shell fadeUp">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-floats">
+      <span class="blob b1"></span>
+      <span class="blob b2"></span>
+    </div>
+
+    <div class="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <div>
+        <span class="hero-eyebrow"><span class="pulse"></span> Live workspace</span>
+        <h1 class="hero-title mt-4" style="font-size:clamp(2rem,4vw,3rem);">
+          Hello, <span class="grad">{{ request.user.first_name|default:request.user.username }}</span>
+        </h1>
+        <p class="hero-sub">Here are the tasks your manager and team have assigned to you. Stay focused, ship quality.</p>
+        <div class="flex flex-wrap items-center gap-2 mt-4">
+          <span class="badge badge-cyan">{{ role_label }}</span>
+          <span class="badge badge-violet">{{ task_counts.total }} total</span>
+          <span class="badge badge-warning">{{ task_counts.pending }} pending</span>
+          <span class="badge badge-brand">{{ task_counts.in_progress }} in progress</span>
+          <span class="badge badge-success">{{ task_counts.completed }} done</span>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="{% url 'employee_dashboard' %}" class="btn-secondary btn-lg">My Dashboard</a>
+        <a href="{% url 'view_tasks' %}" class="btn-primary btn-lg">View all tasks</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-cards stagger">
+    <a href="?" class="kpi-card group">
+      <div class="flex items-center justify-between">
+        <div class="kpi-icon" style="background:linear-gradient(135deg,#3b63ff,#7c3aed);">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18"/></svg>
+        </div>
+        <span class="badge badge-brand">All</span>
+      </div>
+      <div class="kpi-value mt-3">{{ task_counts.total }}</div>
+      <div class="kpi-label">Total Tasks</div>
+    </a>
+
+    <a href="?status=PENDING" class="kpi-card group">
+      <div class="flex items-center justify-between">
+        <div class="kpi-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <span class="badge badge-warning">Pending</span>
+      </div>
+      <div class="kpi-value mt-3">{{ task_counts.pending }}</div>
+      <div class="kpi-label">Awaiting Action</div>
+    </a>
+
+    <a href="?status=IN_PROGRESS" class="kpi-card group">
+      <div class="flex items-center justify-between">
+        <div class="kpi-icon" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+        </div>
+        <span class="badge badge-cyan">Active</span>
+      </div>
+      <div class="kpi-value mt-3">{{ task_counts.in_progress }}</div>
+      <div class="kpi-label">In Progress</div>
+    </a>
+
+    <a href="?status=COMPLETED" class="kpi-card group">
+      <div class="flex items-center justify-between">
+        <div class="kpi-icon" style="background:linear-gradient(135deg,#10b981,#06b6d4);">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <span class="badge badge-success">Done</span>
+      </div>
+      <div class="kpi-value mt-3">{{ task_counts.completed }}</div>
+      <div class="kpi-label">Completed</div>
+    </a>
+  </section>
+
+  <div class="glass-card p-3 fadeUp flex flex-wrap gap-2 items-center">
+    <span class="text-xs font-bold uppercase tracking-wider text-ink-500 px-2">Filter</span>
+    <a class="btn btn-sm {% if not status_filter %}btn-primary{% else %}btn-ghost{% endif %}" href="?">All</a>
+    <a class="btn btn-sm {% if status_filter == 'PENDING' %}btn-primary{% else %}btn-ghost{% endif %}" href="?status=PENDING">Pending</a>
+    <a class="btn btn-sm {% if status_filter == 'IN_PROGRESS' %}btn-primary{% else %}btn-ghost{% endif %}" href="?status=IN_PROGRESS">In progress</a>
+    <a class="btn btn-sm {% if status_filter == 'COMPLETED' %}btn-primary{% else %}btn-ghost{% endif %}" href="?status=COMPLETED">Completed</a>
+    {% if status_filter %}
+      <a class="btn btn-sm btn-ghost" href="{% url 'employee_dashboard' %}">Clear ✕</a>
+    {% endif %}
+  </div>
+
+  <div class="glass-card p-2 fadeUp">
+    <div class="px-4 py-3 flex items-center justify-between border-b border-ink-100">
+      <h2 class="text-lg font-bold text-ink-900">
+        {% if status_filter %}
+          Tasks · {{ status_filter|cut:'_' }}
+        {% else %}
+          All my tasks
+        {% endif %}
+      </h2>
+      <span class="text-xs text-ink-500">{{ tasks|length }} shown</span>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="table-premium">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Project</th>
+            <th>Assigned to</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Due</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in tasks %}
+          <tr>
+            <td>
+              <a class="footer-link font-semibold" href="{% url 'view_task_detail' t.id %}">{{ t.title }}</a>
+              {% if t.detail and t.detail.asset_caption %}
+                <div class="text-xs text-ink-500 mt-1 line-clamp-1">{{ t.detail.asset_caption }}</div>
+              {% endif %}
+            </td>
+            <td>
+              {% if t.project %}
+                <span class="tag">{{ t.project.name }}</span>
+              {% else %}—{% endif %}
+            </td>
+            <td>
+              <div class="flex -space-x-2">
+                {% for u in t.assigned_to.all|slice:":3" %}
+                  {% if u.profile_picture %}
+                    <img class="avatar-sm ring-2 ring-white" src="{{ u.profile_picture.url }}" alt="{{ u.username }}" title="{{ u.username }}" onerror="this.style.display='none'" />
+                  {% else %}
+                    <span class="avatar-sm ring-2 ring-white flex items-center justify-center text-[10px] font-bold text-white" style="background:linear-gradient(135deg,#3b63ff,#7c3aed);">{{ u.first_name|slice:":1"|upper|default:u.username|slice:":1"|upper }}</span>
+                  {% endif %}
+                {% endfor %}
+                {% if t.assigned_to.count > 3 %}
+                  <span class="avatar-sm bg-ink-200 text-xs flex items-center justify-center">+{{ t.assigned_to.count|add:"-3" }}</span>
+                {% endif %}
+              </div>
+            </td>
+            <td><span class="badge status-{{ t.status }}">{{ t.get_status_display }}</span></td>
+            <td>
+              {% if t.detail %}
+                <span class="badge priority-{{ t.detail.priority }}">{{ t.detail.get_priority_display }}</span>
+              {% else %}—{% endif %}
+            </td>
+            <td>{{ t.due_date|date:"M d, Y" }}</td>
+            <td class="text-right whitespace-nowrap">
+              <a class="btn btn-sm btn-ghost" href="{% url 'view_task_detail' t.id %}">View</a>
+              {% if perms.tasks.change_task %}
+                <a class="btn btn-sm btn-ghost" href="{% url 'update-task' t.id %}">Edit</a>
+              {% endif %}
+              {% if perms.tasks.delete_task %}
+                <a class="btn btn-sm btn-ghost" style="color:#b91c1c" href="{% url 'delete-task' t.id %}">Delete</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7">
+              <div class="empty-state">
+                <div class="emoji">📋</div>
+                {% if status_filter %}
+                  <p class="font-semibold text-ink-700">No tasks match this filter.</p>
+                  <a class="btn btn-ghost mt-3" href="{% url 'employee_dashboard' %}">Show all tasks</a>
+                {% else %}
+                  <p class="font-semibold text-ink-700">No tasks assigned to you yet.</p>
+                  <p class="text-sm">Once a manager assigns work, it will appear here.</p>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% if projects_with_tasks %}
+  <section class="fadeUp">
+    <div class="flex items-end justify-between mb-4">
+      <div>
+        <span class="eyebrow">By Project</span>
+        <h2 class="sec-title mt-1" style="font-size:1.6rem;">Tasks grouped by project</h2>
+        <p class="text-ink-600 mt-1 text-sm">A focused view of work distributed across your active projects.</p>
+      </div>
+    </div>
+
+    <div class="grid-cards">
+      {% for group in projects_with_tasks %}
+      <div class="feat-card">
+        <div class="flex items-start justify-between mb-3">
+          <div>
+            <h3 class="text-lg font-bold text-ink-900">{{ group.project.name }}</h3>
+            {% if group.project.description %}
+              <p class="text-sm text-ink-500 mt-1 line-clamp-2">{{ group.project.description }}</p>
+            {% endif %}
+          </div>
+          <span class="badge badge-brand">{{ group.total }}</span>
+        </div>
+
+        <div class="flex gap-2 text-xs mb-4">
+          <span class="badge status-PENDING">{{ group.project.num_pending }} pending</span>
+          <span class="badge status-IN_PROGRESS">{{ group.project.num_inprogress }} active</span>
+          <span class="badge status-COMPLETED">{{ group.project.num_completed }} done</span>
+        </div>
+
+        {% if group.tasks %}
+          <ul class="divide-y divide-ink-100 -mx-2">
+            {% for t in group.tasks %}
+            <li class="px-2 py-2 flex items-center gap-3">
+              <span class="badge priority-{{ t.detail.priority|default:'L' }}" style="min-width:46px;justify-content:center;">
+                {% if t.detail %}{{ t.detail.get_priority_display }}{% else %}—{% endif %}
+              </span>
+              <div class="min-w-0 flex-1">
+                <a class="footer-link text-sm font-semibold block truncate" href="{% url 'view_task_detail' t.id %}">{{ t.title }}</a>
+                <div class="text-xs text-ink-500">Due {{ t.due_date|date:"M d" }}</div>
+              </div>
+              <span class="badge status-{{ t.status }}">{{ t.get_status_display }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-sm text-ink-500">No tasks for this filter.</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+{% endblock %}

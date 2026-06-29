@@ -1,0 +1,143 @@
+{% load static %}
+{% load customfilters %}
+<nav class="nav-shell sticky top-0 z-40">
+  <div class="container-x flex items-center justify-between h-16">
+    <a href="{% url 'home' %}" class="nav-brand flex items-center gap-2.5 group">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="text-lg font-extrabold tracking-tight">TaskPro</span>
+    </a>
+    <div class="hidden md:flex items-center gap-7 text-sm">
+      <a href="{% url 'home' %}" class="nav-link">Home</a>
+      <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+      <a href="{% url 'view_tasks' %}" class="nav-link">Tasks</a>
+      <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+    </div>
+
+    <div class="flex items-center gap-2.5" data-user-menu-root>
+      <button type="button"
+              class="user-menu-trigger flex items-center gap-2 pl-1 pr-2 py-1 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 transition focus:outline-none focus:ring-2 focus:ring-brand-400"
+              data-user-menu-toggle
+              aria-haspopup="menu"
+              aria-expanded="false">
+        {% if user.profile_picture %}
+          <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" class="user-avatar" onerror="this.outerHTML='<span class=&quot;user-avatar user-avatar-fallback&quot;>{{ user.username|first|upper }}</span>'" />
+        {% else %}
+          <span class="user-avatar user-avatar-fallback">{{ user.username|slice:":1"|upper }}</span>
+        {% endif %}
+        <svg class="hidden sm:block w-3.5 h-3.5 text-white/70" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.25 4.39a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+      </button>
+
+      <div class="user-menu-panel hidden" role="menu" data-user-menu-panel>
+        <div class="user-menu-head">
+          <div class="user-menu-id">
+            {% if user.profile_picture %}<img src="{{ user.profile_picture.url }}" class="user-menu-avatar" onerror="this.outerHTML='<span class=&quot;user-menu-avatar user-menu-avatar-fallback&quot;>{{ user.username|first|upper }}</span>'" alt="" />{% else %}<span class="user-menu-avatar user-menu-avatar-fallback">{{ user.username|slice:":1"|upper }}</span>{% endif %}
+            <div class="min-w-0">
+              <div class="user-menu-name">{% if user.first_name %}{{ user.first_name }}{% if user.last_name %} {{ user.last_name }}{% endif %}{% else %}{{ user.username|cut:'_admin' }}{% endif %}</div>
+              <div class="user-menu-handle">@{{ user.username }}</div>
+            </div>
+          </div>
+          <div class="user-menu-badges">
+            {% if user.is_superuser %}<span class="um-badge um-badge-violet">Super Admin</span>{% elif user|in_group:"Admin" %}<span class="um-badge um-badge-violet">Admin</span>{% elif user|in_group:"Manager" %}<span class="um-badge um-badge-cyan">Manager</span>{% elif user|in_group:"Employee" %}<span class="um-badge um-badge-brand">Employee</span>{% else %}<span class="um-badge um-badge-muted">Member</span>{% endif %}
+            {% if user.is_active %}<span class="um-badge um-badge-success">Active</span>{% else %}<span class="um-badge um-badge-warning">Inactive</span>{% endif %}
+          </div>
+        </div>
+
+        <div class="user-menu-links" role="none">
+          <a href="{% url 'profile' %}" class="user-menu-link" role="menuitem">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            <span>Profile</span>
+          </a>
+          <a href="{% url 'dashboard' %}" class="user-menu-link" role="menuitem">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+            <span>Dashboard</span>
+          </a>
+          {% if user|in_group:"Admin" %}
+            <a href="{% url 'admin_dashboard' %}" class="user-menu-link" role="menuitem">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+              <span>Admin Panel</span>
+            </a>
+            <a href="{% url 'view_tasks' %}" class="user-menu-link" role="menuitem">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>
+              <span>All Tasks</span>
+            </a>
+          {% elif user|in_group:"Manager" %}
+            <a href="{% url 'manager_dashboard' %}" class="user-menu-link" role="menuitem">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+              <span>Manager Panel</span>
+            </a>
+            <a href="{% url 'view_tasks' %}" class="user-menu-link" role="menuitem">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>
+              <span>All Tasks</span>
+            </a>
+          {% elif user|in_group:"Employee" %}
+            <a href="{% url 'employee_dashboard' %}" class="user-menu-link" role="menuitem">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+              <span>My Dashboard</span>
+            </a>
+            <a href="{% url 'view_tasks' %}" class="user-menu-link" role="menuitem">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>
+              <span>My Tasks</span>
+            </a>
+          {% endif %}
+          <a href="{% url 'home' %}" class="user-menu-link" role="menuitem">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+            <span>Home</span>
+          </a>
+        </div>
+
+        <form method="post" action="{% url 'sign_out' %}" class="user-menu-form" role="none">
+          {% csrf_token %}
+          <button type="submit" class="user-menu-link user-menu-link-danger" role="menuitem">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+            <span>Logout</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .user-avatar{width:32px;height:32px;border-radius:9999px;object-fit:cover;border:2px solid rgba(255,255,255,.25);box-shadow:0 0 0 2px rgba(59,99,255,.35);display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;background:linear-gradient(135deg,#3b63ff,#7c3aed);}
+  .user-avatar-fallback{font-size:.85rem;letter-spacing:.5px;}
+  .user-menu-panel{position:absolute;right:1rem;top:calc(100% + .55rem);min-width:280px;background:#0b1228;border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:0 24px 60px rgba(2,6,23,.55),0 4px 12px rgba(2,6,23,.4);padding:.45rem;z-index:60;animation:um-pop .18s ease-out;}
+  @keyframes um-pop{from{opacity:0;transform:translateY(-6px) scale(.98);}to{opacity:1;transform:none;}}
+  .user-menu-head{padding:.6rem .7rem .7rem;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:.35rem;}
+  .user-menu-id{display:flex;align-items:center;gap:.65rem;}
+  .user-menu-avatar{width:42px;height:42px;border-radius:9999px;object-fit:cover;border:2px solid rgba(255,255,255,.18);background:linear-gradient(135deg,#3b63ff,#7c3aed);display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;}
+  .user-menu-avatar-fallback{font-size:.95rem;}
+  .user-menu-name{color:#f8fafc;font-weight:700;font-size:.95rem;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .user-menu-handle{color:#94a3b8;font-size:.75rem;}
+  .user-menu-badges{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.55rem;}
+  .um-badge{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:.18rem .5rem;border-radius:9999px;}
+  .um-badge-violet{background:rgba(124,58,237,.18);color:#c4b5fd;}
+  .um-badge-cyan{background:rgba(6,182,212,.18);color:#67e8f9;}
+  .um-badge-brand{background:rgba(59,99,255,.18);color:#93c5fd;}
+  .um-badge-success{background:rgba(16,185,129,.18);color:#6ee7b7;}
+  .um-badge-warning{background:rgba(245,158,11,.18);color:#fcd34d;}
+  .um-badge-muted{background:rgba(148,163,184,.18);color:#cbd5e1;}
+  .user-menu-links,.user-menu-form{display:flex;flex-direction:column;gap:2px;}
+  .user-menu-link{display:flex;align-items:center;gap:.6rem;padding:.55rem .65rem;border-radius:10px;color:#e2e8f0;font-size:.875rem;font-weight:500;background:transparent;border:0;width:100%;text-align:left;cursor:pointer;transition:background .15s,color .15s;text-decoration:none;}
+  .user-menu-link:hover{background:rgba(59,99,255,.15);color:#fff;}
+  .user-menu-link svg{opacity:.85;}
+  .user-menu-form{margin:0;padding:.35rem .25rem .25rem;border-top:1px solid rgba(255,255,255,.07);}
+  .user-menu-link-danger{color:#fca5a5;}
+  .user-menu-link-danger:hover{background:rgba(239,68,68,.18);color:#fecaca;}
+  [data-user-menu-root]{position:relative;}
+</style>
+
+<script>
+(function(){
+  const root = document.currentScript.parentElement.querySelector('[data-user-menu-root]') || document.querySelector('[data-user-menu-root]');
+  if (!root) return;
+  const trigger = root.querySelector('[data-user-menu-toggle]');
+  const panel = root.querySelector('[data-user-menu-panel]');
+  if (!trigger || !panel) return;
+  const open = () => { panel.classList.remove('hidden'); trigger.setAttribute('aria-expanded','true'); };
+  const close = () => { panel.classList.add('hidden'); trigger.setAttribute('aria-expanded','false'); };
+  const toggle = () => { panel.classList.contains('hidden') ? open() : close(); };
+  trigger.addEventListener('click', (e)=>{ e.stopPropagation(); toggle(); });
+  document.addEventListener('click', (e)=>{ if (!root.contains(e.target)) close(); });
+  document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') close(); });
+})();
+</script>
