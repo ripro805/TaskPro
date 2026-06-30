@@ -148,7 +148,11 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Compress + cache static files for production.
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Use plain CompressedStaticFilesStorage (no manifest hashing) so that
+# {% static 'css/premium.css' %} resolves to the original filename reliably
+# across every collectstatic run. Manifest storage can produce 404s when
+# cached hashed names drift from the template references.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
