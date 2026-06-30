@@ -154,6 +154,13 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # filesystem where the build-time collectstatic directory must match runtime.
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
+# WhiteNoise: also serve from STATICFILES_DIRS (not just STATIC_ROOT).
+# This is a belt-and-braces fallback for platforms like Render free tier
+# where the build-time STATIC_ROOT can be wiped before the runtime starts.
+WHITENOISE_USE_FINDERS = True
+# Enable root-relative serving so {% static %} URLs and /static/... match.
+WHITENOISE_ROOT = None
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 

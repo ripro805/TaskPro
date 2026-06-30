@@ -10,7 +10,9 @@ echo "==> Installing Python dependencies"
 pip install -r requirements.txt
 
 echo "==> Collecting static files"
-python manage.py collectstatic --noinput
+python manage.py collectstatic --noinput --clear --verbosity 2
+echo "==> Static files collected:"
+ls -la staticfiles/css/ 2>/dev/null || echo "WARN: staticfiles/css missing!"
 
 echo "==> Applying database migrations"
 python manage.py migrate --noinput
