@@ -148,11 +148,11 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Compress + cache static files for production.
-# Use plain CompressedStaticFilesStorage (no manifest hashing) so that
-# {% static 'css/premium.css' %} resolves to the original filename reliably
-# across every collectstatic run. Manifest storage can produce 404s when
-# cached hashed names drift from the template references.
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# Use plain StaticFilesStorage (no hashing) so that
+# {% static 'css/premium.css' %} resolves to the exact filename that
+# WhiteNoise serves from STATIC_ROOT — works reliably on Render's ephemeral
+# filesystem where the build-time collectstatic directory must match runtime.
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
