@@ -1,10 +1,3 @@
-databases:
-  - name: taskpro-db
-    plan: free
-    region: singapore
-    databaseName: taskpro
-    user: taskpro
-
 services:
   - type: web
     name: taskpro
@@ -13,17 +6,16 @@ services:
     runtime: python
     branch: main
     buildCommand: "./build.sh"
-    startCommand: "gunicorn task_management.wsgi --log-file -"
+    startCommand: "gunicorn task_management.wsgi --bind 0.0.0.0:$PORT --workers 2 --log-file -"
     autoDeploy: true
+    healthCheckPath: "/"
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: taskpro-db
-          property: connectionString
+        value: "postgresql://postgres.cwrdmpbrqrekdyyembvu:w3Az8TyfXBm9dRth@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres?sslmode=require"
       - key: DJANGO_DEBUG
         value: "False"
       - key: DJANGO_ALLOWED_HOSTS
-        value: ".onrender.com"
+        value: "event-management-website-1-0g6e.onrender.com,.onrender.com,localhost,127.0.0.1"
       - key: SECRET_KEY
         generateValue: true
       - key: PYTHON_VERSION
@@ -32,3 +24,15 @@ services:
         value: "1"
       - key: WEB_CONCURRENCY
         value: "2"
+      - key: EMAIL_HOST
+        value: "smtp.gmail.com"
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_USE_TLS
+        value: "True"
+      - key: EMAIL_HOST_USER
+        value: "rifatrizviofficial001@gmail.com"
+      - key: EMAIL_HOST_PASSWORD
+        value: "piuy caic sdkc xmuv"
+      - key: FRONTEND_URL
+        value: "https://event-management-website-1-0g6e.onrender.com"
