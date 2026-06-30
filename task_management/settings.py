@@ -25,10 +25,41 @@ SECRET_KEY = config(
 )
 
 DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
+# If we are running on Render (it injects RENDER=true into env), force DEBUG off
+# regardless of any stale value. Keeps secret-leak errors private.
+if os.environ.get('RENDER') or os.environ.get('RENDER_EXTERNAL_URL'):
+    DEBUG = False
 
-# Comma-separated list of allowed hosts (use `*` for Vercel preview deploys).
-_default_hosts = '*' if not DEBUG else 'localhost,127.0.0.1,testserver'
+# Always allow *.onrender.com so accidental missing env var never bricks the
+# site. DJANGO_ALLOWED_HOSTS env var still wins when set (CSV list).
+_default_hosts = (
+    'localhost,127.0.0.1,testserver,.onrender.com'
+    if DEBUG
+    else 'localhost,127.0.0.1,.onrender.com'
+)
 ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default=_default_hosts, cast=Csv())
+# Defensive: a mis-configured platform that strips dots from the env value
+# shouldn't take the whole site down.
+if not any('.onrender.com' in h for h in ALLOWED_HOSTS):
+    ALLOWED_HOSTS = list(ALLOWED_HOSTS) + ['.onrender.com']
+
+
+def _normalize_allowed_hosts():
+    """Subdomains strip the leading dot in some env-var parsers — restore it.
+
+    `taskpro-u4b9,onrender,com` should become `taskpro-u4b9.onrender.com`.
+    """
+    fixed = []
+    for host in ALLOWED_HOSTS:
+        if ',' in host and not host.startswith('.'):
+            parts = host.rsplit(',', 2)
+            if len(parts) == 3 and 'onrender' in parts[1]:
+                host = '.'.join(parts)
+        fixed.append(host.strip())
+    ALLOWED_HOSTS[:] = fixed
+
+
+_normalize_allowed_hosts()
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
