@@ -1,0 +1,34 @@
+databases:
+  - name: taskpro-db
+    plan: free
+    region: singapore
+    databaseName: taskpro
+    user: taskpro
+
+services:
+  - type: web
+    name: taskpro
+    plan: free
+    region: singapore
+    runtime: python
+    branch: main
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn task_management.wsgi --log-file -"
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: taskpro-db
+          property: connectionString
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: "3.11.10"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: WEB_CONCURRENCY
+        value: "2"

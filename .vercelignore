@@ -1,4 +1,4 @@
-﻿# Vercel skip list - keeps the deploy bundle small and excludes secrets.
+# Vercel skip list - keeps the deploy bundle small and excludes secrets.
 .git
 .gitignore
 .vscode
@@ -19,7 +19,6 @@ __pycache__
 db.sqlite3
 db.sqlite3-journal
 media
-staticfiles
 
 # Node / Tailwind
 node_modules
