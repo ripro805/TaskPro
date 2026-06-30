@@ -1,4 +1,4 @@
-﻿/* =========================================================================
+/* =========================================================================
    TaskPro Premium Design System
    Layered on top of Tailwind CSS via CDN.
    Loaded from base.html after Tailwind preflight.
@@ -1723,6 +1723,16 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
 .pf-stat .pf-stat-delta.up { color: #059669; }
 .pf-stat .pf-stat-delta.down { color: #b91c1c; }
 
+/* Scope banner (system-wide indicator above stats) */
+.pf-scope-banner { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-top: .85rem; padding: .65rem .9rem; border-radius: 14px; background: linear-gradient(135deg, rgba(59,99,255,.06), rgba(34,211,238,.06)); border: 1px solid rgba(59,99,255,.18); }
+.pf-scope-pill { display: inline-flex; align-items: center; gap: .35rem; padding: .25rem .7rem; border-radius: 999px; font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.pf-scope-pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px currentColor; opacity: .25; }
+.pf-scope-pill-system { background: rgba(59,99,255,.10); color: var(--brand-700, #1d4ed8); border: 1px solid rgba(59,99,255,.25); }
+.pf-scope-pill-personal { background: rgba(139,92,246,.10); color: #6d28d9; border: 1px solid rgba(139,92,246,.25); }
+.pf-scope-text { font-size: .82rem; color: var(--ink-500, #475569); }
+
+
+
 /* Layout */
 .pf-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
 @media (min-width: 980px) { .pf-grid { grid-template-columns: 1fr 320px; } }
@@ -1839,7 +1849,7 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
   /* Light pages stay light for now — design system opts in. */
 }
 
-﻿/* -----------------------------------------------------------------------
+/* -----------------------------------------------------------------------
    Premium Footer
 ----------------------------------------------------------------------- */
 .footer-shell {
@@ -1857,7 +1867,7 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
     radial-gradient(35% 25% at 80% 40%, rgba(139,92,246,.22), transparent 70%);
   filter: blur(40px); opacity: .8; animation: float 12s ease-in-out infinite; }
 .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-﻿.footer-top { display: grid; gap: 2.5rem; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; align-items: start; }
+.footer-top { display: grid; gap: 2.5rem; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; align-items: start; }
 @media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .footer-top { grid-template-columns: 1fr; } }
 .footer-brand-col { display: flex; flex-direction: column; gap: .9rem; max-width: 340px; }
@@ -1870,7 +1880,7 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
 .footer-brand-name { background: linear-gradient(135deg, #fff, #c5cbe2); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .footer-tag { color: rgba(197,203,226,.78); font-size: .92rem; line-height: 1.6; margin: 0; }
 .footer-tag-sm { font-size: .82rem; }
-﻿.footer-socials { display: flex; gap: .55rem; margin-top: .25rem; }
+.footer-socials { display: flex; gap: .55rem; margin-top: .25rem; }
 .footer-social { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
   border-radius: 11px; color: rgba(255,255,255,.85);
   background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
@@ -1881,7 +1891,7 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
 .footer-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .5rem; }
 .footer-link { color: rgba(197,203,226,.85); text-decoration: none; font-size: .92rem; transition: color .15s ease, transform .15s ease; display: inline-block; }
 .footer-link:hover { color: #fff; transform: translateX(3px); }
-﻿.footer-col-news { gap: .85rem; }
+.footer-col-news { gap: .85rem; }
 .footer-form { display: flex; align-items: center; gap: .5rem; padding: .35rem; border-radius: 14px;
   background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
   transition: border-color .18s ease, background .18s ease; }
@@ -1894,7 +1904,7 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
   box-shadow: 0 6px 18px rgba(139,92,246,.35); }
 .footer-submit:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(139,92,246,.5); }
 .footer-form-ok { color: #34d399; font-size: .82rem; padding-left: .35rem; }
-﻿.footer-bottom { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.08);
+.footer-bottom { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.08);
   display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .footer-bottom-left { color: rgba(197,203,226,.7); font-size: .85rem; }
 .footer-bottom-right { display: flex; align-items: center; gap: .55rem; flex-wrap: wrap; }
@@ -1907,7 +1917,7 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
 .footer-status-dot { width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 4px rgba(52,211,153,.18); animation: pulseSoft 2.4s ease-in-out infinite; }
 @media (max-width: 700px) { .footer-bottom { flex-direction: column; align-items: flex-start; } }
 
-﻿/* -----------------------------------------------------------------------
+/* -----------------------------------------------------------------------
    Premium Footer
 ----------------------------------------------------------------------- */
 .footer-shell {
@@ -1925,7 +1935,7 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
     radial-gradient(35% 25% at 80% 40%, rgba(139,92,246,.22), transparent 70%);
   filter: blur(40px); opacity: .8; animation: float 12s ease-in-out infinite; }
 .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-﻿.footer-top { display: grid; gap: 2.5rem; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; align-items: start; }
+.footer-top { display: grid; gap: 2.5rem; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; align-items: start; }
 @media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .footer-top { grid-template-columns: 1fr; } }
 .footer-brand-col { display: flex; flex-direction: column; gap: .9rem; max-width: 340px; }
@@ -1938,7 +1948,7 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
 .footer-brand-name { background: linear-gradient(135deg, #fff, #c5cbe2); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .footer-tag { color: rgba(197,203,226,.78); font-size: .92rem; line-height: 1.6; margin: 0; }
 .footer-tag-sm { font-size: .82rem; }
-﻿.footer-socials { display: flex; gap: .55rem; margin-top: .25rem; }
+.footer-socials { display: flex; gap: .55rem; margin-top: .25rem; }
 .footer-social { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
   border-radius: 11px; color: rgba(255,255,255,.85);
   background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
@@ -1949,7 +1959,7 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
 .footer-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .5rem; }
 .footer-link { color: rgba(197,203,226,.85); text-decoration: none; font-size: .92rem; transition: color .15s ease, transform .15s ease; display: inline-block; }
 .footer-link:hover { color: #fff; transform: translateX(3px); }
-﻿.footer-col-news { gap: .85rem; }
+.footer-col-news { gap: .85rem; }
 .footer-form { display: flex; align-items: center; gap: .5rem; padding: .35rem; border-radius: 14px;
   background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
   transition: border-color .18s ease, background .18s ease; }
@@ -1962,7 +1972,7 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
   box-shadow: 0 6px 18px rgba(139,92,246,.35); }
 .footer-submit:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(139,92,246,.5); }
 .footer-form-ok { color: #34d399; font-size: .82rem; padding-left: .35rem; }
-﻿.footer-bottom { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.08);
+.footer-bottom { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.08);
   display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .footer-bottom-left { color: rgba(197,203,226,.7); font-size: .85rem; }
 .footer-bottom-right { display: flex; align-items: center; gap: .55rem; flex-wrap: wrap; }
@@ -1975,14 +1985,14 @@ form label { display: inline-flex; align-items: center; gap: .5rem; margin-right
 .footer-status-dot { width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 4px rgba(52,211,153,.18); animation: pulseSoft 2.4s ease-in-out infinite; }
 @media (max-width: 700px) { .footer-bottom { flex-direction: column; align-items: flex-start; } }
 
-﻿/* Stat color variants */
+/* Stat color variants */
 .pf-stat-brand { --c: 34,211,238; }
 .pf-stat-violet { --c: 139,92,246; }
 .pf-stat-success { --c: 52,211,153; }
 .pf-stat-warning { --c: 251,191,36; }
 .pf-tl-content { display: flex; flex-direction: column; gap: .15rem; }
 
-﻿/* Stat color variants */
+/* Stat color variants */
 .pf-stat-brand { --c: 34,211,238; }
 .pf-stat-violet { --c: 139,92,246; }
 .pf-stat-success { --c: 52,211,153; }

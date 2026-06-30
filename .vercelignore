@@ -1,0 +1,45 @@
+﻿# Vercel skip list - keeps the deploy bundle small and excludes secrets.
+.git
+.gitignore
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Local venv / caches
+task_env
+task_env_new
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+
+# Local data
+db.sqlite3
+db.sqlite3-journal
+media
+staticfiles
+
+# Node / Tailwind
+node_modules
+.npm
+.cache
+package.json
+package-lock.json
+postcss.config.js
+tailwind.config.js
+
+# Env / secrets (CRITICAL: never upload)
+.env
+.env.*
+!.env.example
+
+# Docs / logs
+*.log
+*.err
+*.out
+*.bak
+*.tmp
+*.dump
+README.md

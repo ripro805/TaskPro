@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block title %}My Profile \u2014 TaskPro{% endblock %}
 {% block content %}
@@ -30,12 +30,16 @@
       </div>
     </div>
   </section>
-  <section class="pf-stats fadeUp">
-    <div class="pf-stat brand"><div class="pf-stat-icon">PR</div><div class="pf-stat-label">Projects</div><div class="pf-stat-value">{{ project_count|default:0 }}</div><div class="pf-stat-delta up">Active</div></div>
-    <div class="pf-stat violet"><div class="pf-stat-icon">TS</div><div class="pf-stat-label">Total Tasks</div><div class="pf-stat-value">{{ task_count|default:0 }}</div><div class="pf-stat-delta up">Assigned</div></div>
-    <div class="pf-stat success"><div class="pf-stat-icon">OK</div><div class="pf-stat-label">Completed</div><div class="pf-stat-value">{{ completed_count|default:0 }}</div><div class="pf-stat-delta up">Done</div></div>
-    <div class="pf-stat warning"><div class="pf-stat-icon">PCT</div><div class="pf-stat-label">Achievement</div><div class="pf-stat-value">{{ completion_rate|default:0 }}%</div><div class="pf-stat-delta up">Rate</div></div>
+  <section class="pf-stats fadeUp" data-scope="system">
+    <div class="pf-stat brand"><div class="pf-stat-icon">PR</div><div class="pf-stat-label">Projects</div><div class="pf-stat-value">{{ project_count|default:0 }}</div><div class="pf-stat-delta up">All projects</div></div>
+    <div class="pf-stat violet"><div class="pf-stat-icon">TS</div><div class="pf-stat-label">Total Tasks</div><div class="pf-stat-value">{{ task_count|default:0 }}</div><div class="pf-stat-delta up">Across workspace</div></div>
+    <div class="pf-stat success"><div class="pf-stat-icon">OK</div><div class="pf-stat-label">Completed</div><div class="pf-stat-value">{{ completed_count|default:0 }}</div><div class="pf-stat-delta up">All time</div></div>
+    <div class="pf-stat warning"><div class="pf-stat-icon">PCT</div><div class="pf-stat-label">Achievement</div><div class="pf-stat-value">{{ completion_rate|default:0 }}%</div><div class="pf-stat-delta up">Workspace</div></div>
   </section>
+  <div class="pf-scope-banner fadeUp">
+    <span class="pf-scope-pill pf-scope-pill-system">{{ stats_scope_label|default:'System-wide' }}</span>
+    <span class="pf-scope-text">Showing totals across every project and member in your workspace.</span>
+  </div>
   <div class="pf-grid">
     <main class="pf-main">
       <article class="pf-card fadeUp">

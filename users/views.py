@@ -256,6 +256,29 @@ class ProfileView(TemplateView):
             context['roles'] = list(user.groups.values_list('name', flat=True))
         except Exception:
             context['roles'] = []
+
+        # Stat cards: workspace-wide stats for every role (admin, manager, employee)
+        try:
+            from tasks.models import Task, Project
+            # Every role sees the same workspace-wide totals so the page is never empty
+            project_count = Project.objects.count()
+            task_count = Task.objects.count()
+            completed_count = Task.objects.filter(status__iexact='completed').count()
+            completion_rate = round((completed_count / task_count) * 100) if task_count else 0
+            context['stats_scope'] = 'system'
+            context['stats_scope_label'] = 'System-wide'
+            context['project_count'] = project_count
+            context['task_count'] = task_count
+            context['completed_count'] = completed_count
+            context['completion_rate'] = completion_rate
+        except Exception:
+            context.setdefault('project_count', 0)
+            context.setdefault('task_count', 0)
+            context.setdefault('completed_count', 0)
+            context.setdefault('completion_rate', 0)
+            context.setdefault('stats_scope', 'system')
+            context.setdefault('stats_scope_label', 'System-wide')
+
         return context
 
 from users.forms import EditProfileForm
