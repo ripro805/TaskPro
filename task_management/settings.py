@@ -1,9 +1,14 @@
 ﻿"""Django settings for task_management project."""
 from pathlib import Path
-from decouple import Config, RepositoryEnv, Csv
+from decouple import Config, RepositoryEnv, RepositoryEmpty, Csv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-config = Config(RepositoryEnv(str(BASE_DIR / ".env")))
+# On serverless (Vercel) there is no .env file — secrets come from the platform's
+# environment. Fall back to an empty repository so `config(...)` reads OS env vars.
+try:
+    config = Config(RepositoryEnv(str(BASE_DIR / ".env")))
+except FileNotFoundError:
+    config = Config(RepositoryEmpty())
 
 # ---- Core security ----
 # Fall back to a fixed dev secret so `manage.py check` works in CI before .env
