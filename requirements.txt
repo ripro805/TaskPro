@@ -1,24 +1,19 @@
-﻿# --- Core runtime ---
 Django==5.2.15
 psycopg[binary]==3.3.4
 dj-database-url==3.1.0
 python-decouple==3.8
 
-# --- Production server / static ---
 gunicorn==23.0.0
 whitenoise==6.7.0
 
-# --- Imaging ---
 pillow==12.2.0
 
-# --- HTTP helpers ---
 requests==2.34.2
 urllib3==2.7.0
 certifi==2026.6.17
 charset-normalizer==3.4.7
 idna==3.18
 
-# --- Misc utilities ---
 python-dateutil==2.9.0.post0
 six==1.17.0
 sqlparse==0.5.5
